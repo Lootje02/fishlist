@@ -7,7 +7,7 @@ import java.time.LocalDate;
  *
  * @author Lorenzo Bindemann
  */
-public class Fish extends FishList{
+public class Fish{
     private String fishSpecies;
     private int fishLengthInCm;
     private double weightInKg;
@@ -16,4 +16,35 @@ public class Fish extends FishList{
     private String bait;
     private boolean prefeed;
     private boolean gotOnTheSide;
+
+    /**
+     * constructor
+     * @param fishSpecies
+     * @param fishLengthInCm
+     * @param weightInKg
+     * @param caughtOn
+     * @param location
+     * @param bait
+     * @param prefeed
+     * @param gotOnTheSide
+     */
+    public Fish(
+        String fishSpecies,
+        int fishLengthInCm,
+        double weightInKg,
+        LocalDate caughtOn,
+        String location,
+        String bait,
+        boolean prefeed,
+        boolean gotOnTheSide
+    ) {
+        this.fishSpecies = fishSpecies;
+        this.fishLengthInCm = fishLengthInCm;
+        this.weightInKg = weightInKg;
+        this.caughtOn = caughtOn;
+        this.location = location;
+        this.bait = bait;
+        this.prefeed = prefeed;
+        this.gotOnTheSide = gotOnTheSide;
+    }
 }
