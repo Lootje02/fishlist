@@ -10,6 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import practicumopdracht.data.FishermanDAO;
+import practicumopdracht.models.Fish;
+import practicumopdracht.models.Fisherman;
 
 import java.lang.reflect.Array;
 
@@ -20,8 +23,9 @@ import java.lang.reflect.Array;
  */
 public class FishView extends View{
     // listview
-    private ListView<String> fishlist;
+    private ListView<Fish> fishlist;
     // labels
+    private final Label LABEL_FISHERMAN = new Label("Visser");
     private final Label LABEL_FISH_SPECIES = new Label("Vissoort");
     private final Label LABEL_FISH_LENGTH_IN_CM = new Label("Lengte van de vis");
     private final Label LABEL_WEIGHT_IN_KG = new Label("Gewicht van de vis");
@@ -41,6 +45,7 @@ public class FishView extends View{
     // date picker
     private final DatePicker DATEPICKER_CAUGHT_ON = new DatePicker();
     // combobox
+    private final ComboBox<Fisherman> FISHERMAN_LIST = new ComboBox<>();
     private final ObservableList<String> WATERTYPE_LIST = FXCollections.observableArrayList(
         "Zoet water",
             "Zout water"
@@ -75,6 +80,7 @@ public class FishView extends View{
 
         // array with the labels
         Node[] labelArray = {
+                LABEL_FISHERMAN,
                 LABEL_FISH_SPECIES,
                 LABEL_FISH_LENGTH_IN_CM,
                 LABEL_WEIGHT_IN_KG,
@@ -88,6 +94,7 @@ public class FishView extends View{
         };
         // array with the controls
         Node[] inputArray = {
+                FISHERMAN_LIST,
                 TEXTFIELD_FISH_SPECIES,
                 TEXTFIELD_FISH_LENGTH_IN_CM,
                 TEXTFIELD_WEIGHT_IN_KG,
@@ -113,12 +120,6 @@ public class FishView extends View{
 
         // create listview
         fishlist = new ListView<>();
-        fishlist.getItems().addAll(
-                "Lorenzo Bindemann",
-                "Piet Stokbrood",
-                "Jan de Vriezer"
-        );
-        fishlist.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         fishlist.setPrefWidth(600);
 
         // set the list on the right position
@@ -136,6 +137,7 @@ public class FishView extends View{
         );
         // add all the items to the grid
         grid.getChildren().addAll(
+                LABEL_FISHERMAN,
                 LABEL_FISH_SPECIES,
                 LABEL_FISH_LENGTH_IN_CM,
                 LABEL_WEIGHT_IN_KG,
@@ -146,6 +148,7 @@ public class FishView extends View{
                 LABEL_PREFEED,
                 LABEL_GOT_ON_THE_SIDE,
                 LABEL_REMARK,
+                FISHERMAN_LIST,
                 TEXTFIELD_FISH_SPECIES,
                 TEXTFIELD_FISH_LENGTH_IN_CM,
                 TEXTFIELD_WEIGHT_IN_KG,
@@ -193,6 +196,14 @@ public class FishView extends View{
 
     public Button getDELETE_BUTTON() {
         return DELETE_BUTTON;
+    }
+
+    public ComboBox<Fisherman> getFISHERMAN_LIST() {
+        return FISHERMAN_LIST;
+    }
+
+    public ListView<Fish> getFishlist() {
+        return fishlist;
     }
 
     public TextField getTEXTFIELD_FISH_SPECIES() {

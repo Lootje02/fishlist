@@ -7,6 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import practicumopdracht.data.FishermanDAO;
+import practicumopdracht.models.Fisherman;
 
 import java.lang.invoke.SwitchPoint;
 
@@ -17,7 +19,7 @@ import java.lang.invoke.SwitchPoint;
  */
 public class FishermanView extends View{
     // listview
-    private ListView<String> fishermanList;
+    private ListView<Fisherman> fishermanList;
     // labels
     private final Label LABEL_FIRSTNAME = new Label("Voornaam");
     private final Label LABEL_LASTNAME = new Label("Achternaam");
@@ -100,14 +102,7 @@ public class FishermanView extends View{
         gridButton.setVgap(8);
         gridButton.setHgap(10);
 
-        // create listview
         fishermanList = new ListView<>();
-        fishermanList.getItems().addAll(
-            "Lorenzo Bindemann",
-                "Piet Stokbrood",
-                "Jan de Vriezer"
-        );
-        fishermanList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         fishermanList.setPrefWidth(600);
 
         // set the list on the right position
@@ -149,6 +144,11 @@ public class FishermanView extends View{
     public Button getSWITCH_BUTTON() {
         return SWITCH_BUTTON;
     }
+
+    public ListView<Fisherman> getFishermanList() {
+        return fishermanList;
+    }
+
 
     public Button getADD_BUTTON() {
         return ADD_BUTTON;

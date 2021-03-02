@@ -1,9 +1,14 @@
 package practicumopdracht.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import practicumopdracht.MainApplication;
+import practicumopdracht.data.DAO;
+import practicumopdracht.data.FakeFishermanDAO;
+import practicumopdracht.data.FishermanDAO;
 import practicumopdracht.models.Fish;
 import practicumopdracht.models.Fisherman;
 import practicumopdracht.views.FishermanView;
@@ -18,9 +23,16 @@ import java.time.LocalDate;
  */
 public class FishermanController extends Controller {
     private FishermanView view;
+    private FishermanDAO fishermanDAO;
+    private Fisherman selectedFisherman;
 
     public FishermanController() {
         view = new FishermanView();
+
+        // set list
+        fishermanDAO = MainApplication.getFishermanDAO();
+        refreshList();
+
         // set actions on buttons
         view.getSWITCH_BUTTON().setOnAction(e -> SwitchToDetails());
         view.getADD_BUTTON().setOnAction(e -> addFishermanToList());
@@ -29,6 +41,16 @@ public class FishermanController extends Controller {
                 "Delete",
                 "Weet je zeker dat je dit wilt verwijderen?"
         ));
+        view.getFishermanList().getSelectionModel().selectedItemProperty().addListener(
+                (observableValue, oldFisherman, newFisherman) -> {
+                    selectedFisherman = newFisherman;
+                }
+        );
+    }
+
+    public void refreshList() {
+        ObservableList<Fisherman> fishermanList = FXCollections.observableList(fishermanDAO.getAll());
+        view.getFishermanList().setItems(fishermanList);
     }
 
     public void addFishermanToList() {
@@ -44,6 +66,10 @@ public class FishermanController extends Controller {
         } else {
             // create object of fish
             Fisherman fisherman = createFishermanObject();
+            // add fisherman to list
+            fishermanDAO.addOrUpdate(fisherman);
+            // refresh the list
+            refreshList();
             // make fields default
             setAllFieldsToDefault();
             // show succes alert
@@ -87,6 +113,10 @@ public class FishermanController extends Controller {
         view.getDATEPICKER_DATE_OF_BIRTH().setStyle("-fx-border-color: default");
     }
 
+    /**
+     * function to check all the input fields on error
+     * @return
+     */
     public StringBuilder checkInputfields() {
         // check if the fields are filled in
         StringBuilder errorText = new StringBuilder();
@@ -117,8 +147,19 @@ public class FishermanController extends Controller {
         return errorText;
     }
 
+    public void setFishermanList() {
+//        FakeFishermanDAO.load();
+    }
+
+    /**
+     * function to switch the views
+     */
     public void SwitchToDetails() {
-        MainApplication.switchWindows(new FishController());
+        MainApplication.switchWindows(
+                new FishController(
+                        this.selectedFisherman
+                )
+        );
     }
 
     @Override

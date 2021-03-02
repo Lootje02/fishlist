@@ -1,14 +1,19 @@
 package practicumopdracht.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import practicumopdracht.MainApplication;
+import practicumopdracht.data.FishDAO;
 import practicumopdracht.models.Fish;
+import practicumopdracht.models.Fisherman;
 import practicumopdracht.views.FishView;
 import practicumopdracht.views.View;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  * This method <description of function>
@@ -17,9 +22,27 @@ import java.time.format.DateTimeFormatter;
  */
 public class FishController extends Controller {
     private FishView view;
+    private FishDAO fishDAO;
+    private Fish selectedFish;
+    private Fisherman currentFisherman;
 
-    public FishController() {
+    public FishController(Fisherman fisherman) {
+        this.currentFisherman = fisherman;
         view = new FishView();
+
+        // set list
+        fishDAO = MainApplication.getFishDAO();
+        refreshList();
+        // set fishermans in combobox
+        view.getFISHERMAN_LIST().setItems(FXCollections.observableList(
+                MainApplication.getFishermanDAO().getAll()
+        ));
+        view.getFISHERMAN_LIST().getSelectionModel().select(currentFisherman);
+        view.getFISHERMAN_LIST().getSelectionModel().selectedItemProperty().addListener(
+                (observableValue, oldFisherman, newFisherman) -> {
+                    this.currentFisherman = newFisherman;
+                }
+        );
         // set actions on buttons
         view.getSWITCH_BUTTON().setOnAction(e -> switchToList());
         view.getSAVE_BUTTON().setOnAction(e -> addToFishList());
@@ -28,6 +51,17 @@ public class FishController extends Controller {
                 "Delete",
                 "Weet je zeker dat je dit wilt verwijderen?"
         ));
+
+        view.getFishlist().getSelectionModel().selectedItemProperty().addListener(
+                ((observableValue, oldFish, newFish) -> {
+                    selectedFish = newFish;
+                })
+        );
+    }
+
+    public void refreshList() {
+        ObservableList<Fish> fishList = FXCollections.observableList(fishDAO.getAll());
+        view.getFishlist().setItems(fishList);
     }
 
     public View getView() {
@@ -160,6 +194,7 @@ public class FishController extends Controller {
         // create object of input
          final Fish FISH = new Fish(
                 fishSpecies,
+                 currentFisherman.getId(),
                 lengthInCm,
                 weightInKg,
                 date,

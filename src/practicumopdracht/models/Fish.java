@@ -9,6 +9,8 @@ import java.time.format.DateTimeFormatter;
  * @author Lorenzo Bindemann
  */
 public class Fish{
+    private int id;
+    private int hoortBij;
     private String fishSpecies;
     private int fishLengthInCm;
     private double weightInKg;
@@ -33,6 +35,7 @@ public class Fish{
      */
     public Fish(
         String fishSpecies,
+        int hoortBij,
         int fishLengthInCm,
         double weightInKg,
         LocalDate caughtOn,
@@ -44,6 +47,7 @@ public class Fish{
         String remark
     ) {
         this.fishSpecies = fishSpecies;
+        this.hoortBij = hoortBij;
         this.fishLengthInCm = fishLengthInCm;
         this.weightInKg = weightInKg;
         this.caughtOn = caughtOn;
@@ -53,6 +57,18 @@ public class Fish{
         this.prefeed = prefeed;
         this.gotOnTheSide = gotOnTheSide;
         this.remark = remark;
+    }
+
+    public int getHoortBij() {
+        return hoortBij;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
