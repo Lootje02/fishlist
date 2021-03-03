@@ -41,9 +41,18 @@ public class FishermanController extends Controller {
                 "Delete",
                 "Weet je zeker dat je dit wilt verwijderen?"
         ));
+        // if nothing selected set on start the buttons to disabled
+        view.getDELETE_BUTTON().setDisable(true);
+        view.getSWITCH_BUTTON().setDisable(true);
+        view.getEDIT_BUTTON().setDisable(true);
+        // set select item
         view.getFishermanList().getSelectionModel().selectedItemProperty().addListener(
                 (observableValue, oldFisherman, newFisherman) -> {
                     selectedFisherman = newFisherman;
+                    // set buttons on enabled
+                    view.getDELETE_BUTTON().setDisable(false);
+                    view.getSWITCH_BUTTON().setDisable(false);
+                    view.getEDIT_BUTTON().setDisable(false);
                 }
         );
     }

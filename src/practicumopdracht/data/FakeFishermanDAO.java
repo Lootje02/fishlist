@@ -25,6 +25,9 @@ public class FakeFishermanDAO extends FishermanDAO{
         super.addOrUpdate(fisherman1);
         super.addOrUpdate(fisherman2);
         super.addOrUpdate(fisherman3);
+        fisherman1.setId(0);
+        fisherman2.setId(1);
+        fisherman3.setId(2);
         return true;
     }
 }

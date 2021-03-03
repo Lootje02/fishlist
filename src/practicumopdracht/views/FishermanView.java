@@ -149,6 +149,9 @@ public class FishermanView extends View{
         return fishermanList;
     }
 
+    public Button getEDIT_BUTTON() {
+        return EDIT_BUTTON;
+    }
 
     public Button getADD_BUTTON() {
         return ADD_BUTTON;

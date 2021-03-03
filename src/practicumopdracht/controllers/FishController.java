@@ -38,10 +38,12 @@ public class FishController extends Controller {
                 MainApplication.getFishermanDAO().getAll()
         ));
         view.getFISHERMAN_LIST().getSelectionModel().select(currentFisherman);
+        // set listener to the fisherman combobox
         view.getFISHERMAN_LIST().getSelectionModel().selectedItemProperty().addListener(
-                (observableValue, oldFisherman, newFisherman) -> {
-                    this.currentFisherman = newFisherman;
-                }
+                ((observableValue, oldFisherman, newFisherman) -> {
+                    currentFisherman = newFisherman;
+                    refreshList();
+                })
         );
         // set actions on buttons
         view.getSWITCH_BUTTON().setOnAction(e -> switchToList());
@@ -60,7 +62,7 @@ public class FishController extends Controller {
     }
 
     public void refreshList() {
-        ObservableList<Fish> fishList = FXCollections.observableList(fishDAO.getAll());
+        ObservableList<Fish> fishList = FXCollections.observableList(fishDAO.getAllFor(currentFisherman));
         view.getFishlist().setItems(fishList);
     }
 
@@ -91,6 +93,10 @@ public class FishController extends Controller {
         } else {
             // create object of fish
             Fish fish = createFishObject();
+            // add the fish to the list
+            fishDAO.addOrUpdate(fish);
+            // refresh the list
+            refreshList();
             // make fields default
             setAllFieldsToDefault();
             // show succes alert
@@ -172,7 +178,8 @@ public class FishController extends Controller {
                bait = view.getTEXTFIELD_BAIT().getText(),
                remark = view.getREMARK_TEXTAREA().getText();
         LocalDate date = view.getDATEPICKER_CAUGHT_ON().getValue();
-        int lengthInCm;
+        int lengthInCm,
+            fishermanId = currentFisherman.getId();
         double weightInKg;
         boolean prefeed = view.getPREFEED_CHECKBOX().isSelected(),
                 gotOnside = view.getGOT_ON_SIDE_CHECKBOX().isSelected();
@@ -194,7 +201,7 @@ public class FishController extends Controller {
         // create object of input
          final Fish FISH = new Fish(
                 fishSpecies,
-                 currentFisherman.getId(),
+                fishermanId,
                 lengthInCm,
                 weightInKg,
                 date,

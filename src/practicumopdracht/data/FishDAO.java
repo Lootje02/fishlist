@@ -39,9 +39,14 @@ public abstract class FishDAO implements DAO<Fish>{
         return highestId;
     }
 
-    public FishDAO getAllFor(Fisherman fisherman) {
-        objects.removeIf(fish -> fish.getHoortBij() == fisherman.getId());
-        return this;
+    public List<Fish> getAllFor(Fisherman fisherman) {
+        List<Fish> fishList = new ArrayList<>();
+        for (Fish fish : objects) {
+            if (fish.getHoortBij() == fisherman.getId()) {
+                fishList.add(fish);
+            }
+        }
+        return fishList;
     };
 
     @Override
