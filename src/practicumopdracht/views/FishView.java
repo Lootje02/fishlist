@@ -198,6 +198,10 @@ public class FishView extends View{
         return DELETE_BUTTON;
     }
 
+    public Button getNEW_BUTTON() {
+        return NEW_BUTTON;
+    }
+
     public ComboBox<Fisherman> getFISHERMAN_LIST() {
         return FISHERMAN_LIST;
     }
@@ -244,6 +248,8 @@ public class FishView extends View{
     public ComboBox getWATERTYPE_COMBOBOX() {
         return WATERTYPE_COMBOBOX;
     }
+
+
 
     /**
      * getter function for the view

@@ -46,6 +46,18 @@ public class FishController extends Controller {
                 })
         );
         // set actions on buttons
+        setActionsOnButtons();
+
+        view.getFishlist().getSelectionModel().selectedItemProperty().addListener(
+                ((observableValue, oldFish, newFish) -> {
+                    selectedFish = newFish;
+                    setFishInFields();
+                })
+        );
+    }
+
+    public void setActionsOnButtons() {
+        view.getNEW_BUTTON().setOnAction(e -> setAllFieldsToDefault());
         view.getSWITCH_BUTTON().setOnAction(e -> switchToList());
         view.getSAVE_BUTTON().setOnAction(e -> addToFishList());
         view.getDELETE_BUTTON().setOnAction(e -> showAlert(
@@ -53,11 +65,56 @@ public class FishController extends Controller {
                 "Delete",
                 "Weet je zeker dat je dit wilt verwijderen?"
         ));
+    }
 
-        view.getFishlist().getSelectionModel().selectedItemProperty().addListener(
-                ((observableValue, oldFish, newFish) -> {
-                    selectedFish = newFish;
-                })
+    public void setFishInFields() {
+        // textfield array
+        TextField[] textfields = {
+                view.getTEXTFIELD_FISH_SPECIES(),
+
+                view.getTEXTFIELD_WEIGHT_IN_KG(),
+                view.getTEXTFIELD_LOCATION(),
+                view.getTEXTFIELD_BAIT(),
+        };
+        // species
+        view.getTEXTFIELD_FISH_SPECIES().setText(
+                selectedFish.getFishSpecies()
+        );
+        // length
+        view.getTEXTFIELD_FISH_LENGTH_IN_CM().setText(
+                String.valueOf(selectedFish.getFishLengthInCm())
+        );
+        // weight
+        view.getTEXTFIELD_WEIGHT_IN_KG().setText(
+                String.valueOf(selectedFish.getWeightInKg())
+        );
+        // caught on
+        view.getDATEPICKER_CAUGHT_ON().setValue(
+                selectedFish.getCaughtOn()
+        );
+        // Location
+        view.getTEXTFIELD_LOCATION().setText(
+                selectedFish.getLocation()
+        );
+        // watertype
+        view.getWATERTYPE_COMBOBOX().getSelectionModel().select(
+                selectedFish.getWaterType()
+        );
+        // Bait
+        view.getTEXTFIELD_BAIT().setText(
+                selectedFish.getBait()
+        );
+        // prefeed
+        view.getPREFEED_CHECKBOX().setSelected(
+                selectedFish.isPrefeed()
+        );
+        // got on side
+        view.getGOT_ON_SIDE_CHECKBOX().setSelected(
+                selectedFish.isGotOnTheSide()
+        );
+        // remark
+        view.getREMARK_TEXTAREA().setText(
+                selectedFish.getRemark()
         );
     }
 

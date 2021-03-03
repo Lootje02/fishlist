@@ -74,8 +74,14 @@ public class FishermanView extends View{
         }
 
         // set the button on the right position
+        Button[] changingButtonArray = {
+                ADD_BUTTON,
+                EDIT_BUTTON,
+        };
         // labelArray.length is used to set it under the items
-        GridPane.setConstraints(ADD_BUTTON, 0, labelArray.length);
+        for (int i = 0; i < changingButtonArray.length; i++) {
+            GridPane.setConstraints(changingButtonArray[i], i, labelArray.length);
+        }
 
         // set items in the grid
         gridInput.getChildren().addAll(
@@ -87,7 +93,8 @@ public class FishermanView extends View{
                 TEXTFIELD_LASTNAME,
                 TEXTFIELD_CITY,
                 DATEPICKER_DATE_OF_BIRTH,
-                ADD_BUTTON
+                ADD_BUTTON,
+                EDIT_BUTTON
         );
 
         // list grid
@@ -110,7 +117,6 @@ public class FishermanView extends View{
         // create an array for the buttons
         Node[] buttonArray = {
                 DELETE_BUTTON,
-                EDIT_BUTTON,
                 SWITCH_BUTTON,
         };
         // set the buttons on the right position
@@ -124,7 +130,6 @@ public class FishermanView extends View{
         );
         gridButton.getChildren().addAll(
                 DELETE_BUTTON,
-                EDIT_BUTTON,
                 SWITCH_BUTTON
         );
 
