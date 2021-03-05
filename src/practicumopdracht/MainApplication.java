@@ -24,6 +24,7 @@ public class MainApplication extends Application {
         stage.getIcons().add(new Image("https://is2-ssl.mzstatic.com/image/thumb/Purple62/v4/7c/96/aa/7c96aa23-1215-93e9-b719-95d30fe6603a/source/512x512bb.jpg"));
 
         stage.setTitle(String.format("Practicumopdracht OOP2 - %s", Main.studentNaam));
+        // TODO change numbers to not magic numbers
         stage.setMinWidth(640);
         stage.setWidth(640);
         stage.setHeight(700);
