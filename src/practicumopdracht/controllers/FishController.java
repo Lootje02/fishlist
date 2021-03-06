@@ -1,14 +1,19 @@
 package practicumopdracht.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import practicumopdracht.MainApplication;
+import practicumopdracht.data.FishDAO;
 import practicumopdracht.models.Fish;
+import practicumopdracht.models.Fisherman;
 import practicumopdracht.views.FishView;
 import practicumopdracht.views.View;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  * This method <description of function>
@@ -17,10 +22,47 @@ import java.time.format.DateTimeFormatter;
  */
 public class FishController extends Controller {
     private FishView view;
+    private FishDAO fishDAO;
+    private Fish selectedFish;
+    private Fisherman currentFisherman;
 
-    public FishController() {
+    public FishController(Fisherman fisherman) {
+        this.currentFisherman = fisherman;
         view = new FishView();
+
+        // set list
+        fishDAO = MainApplication.getFishDAO();
+        refreshList();
+        // set fishermans in combobox
+        view.getFISHERMAN_LIST().setItems(FXCollections.observableList(
+                MainApplication.getFishermanDAO().getAll()
+        ));
+        // if nothing selected set on start the buttons to disabled
+        disableButtons();
+        // set the selected fisherman in the selection
+        view.getFISHERMAN_LIST().getSelectionModel().select(currentFisherman);
+        // set listener to the fisherman combobox
+        view.getFISHERMAN_LIST().getSelectionModel().selectedItemProperty().addListener(
+                ((observableValue, oldFisherman, newFisherman) -> {
+                    currentFisherman = newFisherman;
+                    refreshList();
+                })
+        );
         // set actions on buttons
+        setActionsOnButtons();
+
+        view.getFishlist().getSelectionModel().selectedItemProperty().addListener(
+                ((observableValue, oldFish, newFish) -> {
+                    selectedFish = newFish;
+                    setFishInFields();
+                    // set buttons on enabled
+                    enableButtons();
+                })
+        );
+    }
+
+    public void setActionsOnButtons() {
+        view.getNEW_BUTTON().setOnAction(e -> setAllFieldsToDefault());
         view.getSWITCH_BUTTON().setOnAction(e -> switchToList());
         view.getSAVE_BUTTON().setOnAction(e -> addToFishList());
         view.getDELETE_BUTTON().setOnAction(e -> showAlert(
@@ -28,6 +70,72 @@ public class FishController extends Controller {
                 "Delete",
                 "Weet je zeker dat je dit wilt verwijderen?"
         ));
+    }
+
+    public void setFishInFields() {
+        // textfield array
+        TextField[] textfields = {
+                view.getTEXTFIELD_FISH_SPECIES(),
+
+                view.getTEXTFIELD_WEIGHT_IN_KG(),
+                view.getTEXTFIELD_LOCATION(),
+                view.getTEXTFIELD_BAIT(),
+        };
+        // species
+        view.getTEXTFIELD_FISH_SPECIES().setText(
+                selectedFish.getFishSpecies()
+        );
+        // length
+        view.getTEXTFIELD_FISH_LENGTH_IN_CM().setText(
+                String.valueOf(selectedFish.getFishLengthInCm())
+        );
+        // weight
+        view.getTEXTFIELD_WEIGHT_IN_KG().setText(
+                String.valueOf(selectedFish.getWeightInKg())
+        );
+        // caught on
+        view.getDATEPICKER_CAUGHT_ON().setValue(
+                selectedFish.getCaughtOn()
+        );
+        // Location
+        view.getTEXTFIELD_LOCATION().setText(
+                selectedFish.getLocation()
+        );
+        // watertype
+        view.getWATERTYPE_COMBOBOX().getSelectionModel().select(
+                selectedFish.getWaterType()
+        );
+        // Bait
+        view.getTEXTFIELD_BAIT().setText(
+                selectedFish.getBait()
+        );
+        // prefeed
+        view.getPREFEED_CHECKBOX().setSelected(
+                selectedFish.isPrefeed()
+        );
+        // got on side
+        view.getGOT_ON_SIDE_CHECKBOX().setSelected(
+                selectedFish.isGotOnTheSide()
+        );
+        // remark
+        view.getREMARK_TEXTAREA().setText(
+                selectedFish.getRemark()
+        );
+    }
+
+    public void refreshList() {
+        ObservableList<Fish> fishList = FXCollections.observableList(fishDAO.getAllFor(currentFisherman));
+        view.getFishlist().setItems(fishList);
+    }
+
+    public void disableButtons() {
+        view.getDELETE_BUTTON().setDisable(true);
+        view.getNEW_BUTTON().setDisable(true);
+    }
+
+    public void enableButtons() {
+        view.getDELETE_BUTTON().setDisable(false);
+        view.getNEW_BUTTON().setDisable(false);
     }
 
     public View getView() {
@@ -57,6 +165,14 @@ public class FishController extends Controller {
         } else {
             // create object of fish
             Fish fish = createFishObject();
+            // check if there is a fish selected than update
+            if (selectedFish != null) {
+                fish.setId(selectedFish.getId());
+            }
+            // add the fish to the list
+            fishDAO.addOrUpdate(fish);
+            // refresh the list
+            refreshList();
             // make fields default
             setAllFieldsToDefault();
             // show succes alert
@@ -72,6 +188,10 @@ public class FishController extends Controller {
      * function to loop through array and set all the textfields to empty
      */
     public void setAllFieldsToDefault() {
+        // clear the selected object
+        selectedFish = null;
+        // disable the buttons again because fields are empty
+        disableButtons();
         // empty textfields
         TextField[] textFields = {
                 view.getTEXTFIELD_FISH_SPECIES(),
@@ -138,7 +258,8 @@ public class FishController extends Controller {
                bait = view.getTEXTFIELD_BAIT().getText(),
                remark = view.getREMARK_TEXTAREA().getText();
         LocalDate date = view.getDATEPICKER_CAUGHT_ON().getValue();
-        int lengthInCm;
+        int lengthInCm,
+            fishermanId = currentFisherman.getId();
         double weightInKg;
         boolean prefeed = view.getPREFEED_CHECKBOX().isSelected(),
                 gotOnside = view.getGOT_ON_SIDE_CHECKBOX().isSelected();
@@ -160,6 +281,7 @@ public class FishController extends Controller {
         // create object of input
          final Fish FISH = new Fish(
                 fishSpecies,
+                fishermanId,
                 lengthInCm,
                 weightInKg,
                 date,
@@ -171,5 +293,11 @@ public class FishController extends Controller {
                 remark
         );
         return FISH;
+    }
+
+    @Override
+    public void deleteItemFromList() {
+        fishDAO.remove(selectedFish);
+        refreshList();
     }
 }

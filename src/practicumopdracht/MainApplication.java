@@ -6,9 +6,15 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import practicumopdracht.controllers.Controller;
 import practicumopdracht.controllers.FishermanController;
+import practicumopdracht.data.FakeFishDAO;
+import practicumopdracht.data.FakeFishermanDAO;
+import practicumopdracht.data.FishDAO;
+import practicumopdracht.data.FishermanDAO;
 
 public class MainApplication extends Application {
     private static Stage stage;
+    private static FishermanDAO fishermanDAO;
+    private static FishDAO fishDAO;
 
     @Override
     public void start(Stage stage) {
@@ -28,11 +34,21 @@ public class MainApplication extends Application {
         stage.setMinWidth(640);
         stage.setWidth(640);
         stage.setHeight(700);
+
+        fishDAO = new FakeFishDAO();
+        fishermanDAO = new FakeFishermanDAO();
+
         switchWindows(new FishermanController());
     }
     public static void switchWindows(Controller controller) {
         // to show the views in your screen
         stage.setScene(new Scene(controller.getView().getRoot()));
         stage.show();
+    }
+    public static FishDAO getFishDAO() {
+        return fishDAO;
+    }
+    public static FishermanDAO getFishermanDAO() {
+        return fishermanDAO;
     }
 }

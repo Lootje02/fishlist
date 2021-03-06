@@ -6,7 +6,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import practicumopdracht.data.FishermanDAO;
+import practicumopdracht.models.Fisherman;
 
 import java.lang.invoke.SwitchPoint;
 
@@ -17,7 +20,7 @@ import java.lang.invoke.SwitchPoint;
  */
 public class FishermanView extends View{
     // listview
-    private ListView<String> fishermanList;
+    private ListView<Fisherman> fishermanList;
     // labels
     private final Label LABEL_FIRSTNAME = new Label("Voornaam");
     private final Label LABEL_LASTNAME = new Label("Achternaam");
@@ -32,8 +35,8 @@ public class FishermanView extends View{
     // button
     private final Button SWITCH_BUTTON = new Button("Schakelen");
     private final Button DELETE_BUTTON = new Button("Verwijder");
-    private final Button EDIT_BUTTON = new Button("Aanpassen");
-    private final Button ADD_BUTTON = new Button("Voeg toe");
+    private final Button NEW_BUTTON = new Button("Nieuw");
+    private final Button ADD_BUTTON = new Button("Opslaan");
 
     // root
     private Parent root;
@@ -71,9 +74,13 @@ public class FishermanView extends View{
             GridPane.setConstraints(inputArray[i], 1, i);
         }
 
-        // set the button on the right position
-        // labelArray.length is used to set it under the items
-        GridPane.setConstraints(ADD_BUTTON, 0, labelArray.length);
+        // save button HBox
+        HBox saveHBox = new HBox();
+        saveHBox.setAlignment(Pos.CENTER);
+        saveHBox.setPadding(new Insets(2,8,0,8));
+        final int BUTTON_WIDTH = 9000;
+        ADD_BUTTON.setPrefWidth(BUTTON_WIDTH);
+        saveHBox.getChildren().addAll(ADD_BUTTON);
 
         // set items in the grid
         gridInput.getChildren().addAll(
@@ -84,8 +91,7 @@ public class FishermanView extends View{
                 TEXTFIELD_FIRSTNAME,
                 TEXTFIELD_LASTNAME,
                 TEXTFIELD_CITY,
-                DATEPICKER_DATE_OF_BIRTH,
-                ADD_BUTTON
+                DATEPICKER_DATE_OF_BIRTH
         );
 
         // list grid
@@ -100,22 +106,15 @@ public class FishermanView extends View{
         gridButton.setVgap(8);
         gridButton.setHgap(10);
 
-        // create listview
         fishermanList = new ListView<>();
-        fishermanList.getItems().addAll(
-            "Lorenzo Bindemann",
-                "Piet Stokbrood",
-                "Jan de Vriezer"
-        );
-        fishermanList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         fishermanList.setPrefWidth(600);
 
         // set the list on the right position
         GridPane.setConstraints(fishermanList, 0, 0);
         // create an array for the buttons
         Node[] buttonArray = {
+                NEW_BUTTON,
                 DELETE_BUTTON,
-                EDIT_BUTTON,
                 SWITCH_BUTTON,
         };
         // set the buttons on the right position
@@ -129,12 +128,13 @@ public class FishermanView extends View{
         );
         gridButton.getChildren().addAll(
                 DELETE_BUTTON,
-                EDIT_BUTTON,
-                SWITCH_BUTTON
+                SWITCH_BUTTON,
+                NEW_BUTTON
         );
 
         fishVBox.getChildren().addAll(
                 gridInput,
+                saveHBox,
                 gridList,
                 gridButton
         );
@@ -148,6 +148,14 @@ public class FishermanView extends View{
      */
     public Button getSWITCH_BUTTON() {
         return SWITCH_BUTTON;
+    }
+
+    public ListView<Fisherman> getFishermanList() {
+        return fishermanList;
+    }
+
+    public Button getNEW_BUTTON() {
+        return NEW_BUTTON;
     }
 
     public Button getADD_BUTTON() {

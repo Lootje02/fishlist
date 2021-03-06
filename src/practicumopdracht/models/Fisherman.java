@@ -10,6 +10,7 @@ import java.util.ArrayList;
  * @author Lorenzo Bindemann
  */
 public class Fisherman {
+    private int id;
     private String firstname;
     private String lastname;
     private LocalDate date_of_birth;
@@ -27,6 +28,46 @@ public class Fisherman {
         this.lastname = lastname;
         this.date_of_birth = date_of_birth;
         this.city = city;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public LocalDate getDate_of_birth() {
+        return date_of_birth;
+    }
+
+    public void setDate_of_birth(LocalDate date_of_birth) {
+        this.date_of_birth = date_of_birth;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
