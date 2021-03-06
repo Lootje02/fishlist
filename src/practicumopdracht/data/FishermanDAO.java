@@ -35,7 +35,7 @@ public abstract class FishermanDAO implements DAO<Fisherman>{
                highestId = fisherman.getId();
            }
        }
-       return highestId;
+       return highestId+1;
     }
 
     @Override

@@ -37,6 +37,9 @@ public class FishController extends Controller {
         view.getFISHERMAN_LIST().setItems(FXCollections.observableList(
                 MainApplication.getFishermanDAO().getAll()
         ));
+        // if nothing selected set on start the buttons to disabled
+        disableButtons();
+        // set the selected fisherman in the selection
         view.getFISHERMAN_LIST().getSelectionModel().select(currentFisherman);
         // set listener to the fisherman combobox
         view.getFISHERMAN_LIST().getSelectionModel().selectedItemProperty().addListener(
@@ -52,6 +55,8 @@ public class FishController extends Controller {
                 ((observableValue, oldFish, newFish) -> {
                     selectedFish = newFish;
                     setFishInFields();
+                    // set buttons on enabled
+                    enableButtons();
                 })
         );
     }
@@ -123,6 +128,16 @@ public class FishController extends Controller {
         view.getFishlist().setItems(fishList);
     }
 
+    public void disableButtons() {
+        view.getDELETE_BUTTON().setDisable(true);
+        view.getNEW_BUTTON().setDisable(true);
+    }
+
+    public void enableButtons() {
+        view.getDELETE_BUTTON().setDisable(false);
+        view.getNEW_BUTTON().setDisable(false);
+    }
+
     public View getView() {
         return view;
     }
@@ -150,6 +165,10 @@ public class FishController extends Controller {
         } else {
             // create object of fish
             Fish fish = createFishObject();
+            // check if there is a fish selected than update
+            if (selectedFish != null) {
+                fish.setId(selectedFish.getId());
+            }
             // add the fish to the list
             fishDAO.addOrUpdate(fish);
             // refresh the list
@@ -169,6 +188,10 @@ public class FishController extends Controller {
      * function to loop through array and set all the textfields to empty
      */
     public void setAllFieldsToDefault() {
+        // clear the selected object
+        selectedFish = null;
+        // disable the buttons again because fields are empty
+        disableButtons();
         // empty textfields
         TextField[] textFields = {
                 view.getTEXTFIELD_FISH_SPECIES(),
@@ -270,5 +293,11 @@ public class FishController extends Controller {
                 remark
         );
         return FISH;
+    }
+
+    @Override
+    public void deleteItemFromList() {
+        fishDAO.remove(selectedFish);
+        refreshList();
     }
 }

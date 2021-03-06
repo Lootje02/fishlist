@@ -36,7 +36,7 @@ public abstract class FishDAO implements DAO<Fish>{
                 highestId = fish.getId();
             }
         }
-        return highestId;
+        return highestId+1;
     }
 
     public List<Fish> getAllFor(Fisherman fisherman) {
@@ -74,9 +74,10 @@ public abstract class FishDAO implements DAO<Fish>{
     public void remove(Fish object) {
         // create fisherman and remove it
         Fish foundFish = getById(object.getId());
-        if (foundFish != null) {
-            objects.remove(foundFish);
+        if (foundFish == null) {
+          return;
         }
+        objects.remove(foundFish);
     }
 
     @Override

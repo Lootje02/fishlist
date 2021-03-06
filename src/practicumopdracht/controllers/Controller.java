@@ -30,17 +30,15 @@ public abstract class Controller {
         Object let = errorAlert.getAlertType();
         if (let == Alert.AlertType.CONFIRMATION) {
             ((Button) errorAlert.getDialogPane().lookupButton(ButtonType.OK)).setText("Ja, verwijder");
-            ((Button) errorAlert.getDialogPane().lookupButton(ButtonType.OK)).setOnAction(e -> deleteFishFromList());
+            ((Button) errorAlert.getDialogPane().lookupButton(ButtonType.OK)).setOnAction(e -> deleteItemFromList());
             ((Button) errorAlert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("Nee, verwijder niet");
         }
         errorAlert.setHeaderText(description);
-        errorAlert.showAndWait();
+        errorAlert.show();
     }
 
     /**
      * to delete fish from the list
      */
-    public void deleteFishFromList() {
-
-    }
+    public abstract void deleteItemFromList();
 }

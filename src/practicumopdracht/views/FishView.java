@@ -165,7 +165,8 @@ public class FishView extends View{
         HBox saveHBox = new HBox();
         saveHBox.setAlignment(Pos.CENTER);
         saveHBox.setPadding(new Insets(2,8,0,8));
-        SAVE_BUTTON.setPrefWidth(9000);
+        final int BUTTON_WIDTH = 9000;
+        SAVE_BUTTON.setPrefWidth(BUTTON_WIDTH);
         saveHBox.getChildren().addAll(SAVE_BUTTON);
         // add the grid to the fishVBox
         fishVBox.getChildren().addAll(

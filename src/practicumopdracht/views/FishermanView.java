@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import practicumopdracht.data.FishermanDAO;
 import practicumopdracht.models.Fisherman;
@@ -34,8 +35,8 @@ public class FishermanView extends View{
     // button
     private final Button SWITCH_BUTTON = new Button("Schakelen");
     private final Button DELETE_BUTTON = new Button("Verwijder");
-    private final Button EDIT_BUTTON = new Button("Aanpassen");
-    private final Button ADD_BUTTON = new Button("Voeg toe");
+    private final Button NEW_BUTTON = new Button("Nieuw");
+    private final Button ADD_BUTTON = new Button("Opslaan");
 
     // root
     private Parent root;
@@ -73,15 +74,13 @@ public class FishermanView extends View{
             GridPane.setConstraints(inputArray[i], 1, i);
         }
 
-        // set the button on the right position
-        Button[] changingButtonArray = {
-                ADD_BUTTON,
-                EDIT_BUTTON,
-        };
-        // labelArray.length is used to set it under the items
-        for (int i = 0; i < changingButtonArray.length; i++) {
-            GridPane.setConstraints(changingButtonArray[i], i, labelArray.length);
-        }
+        // save button HBox
+        HBox saveHBox = new HBox();
+        saveHBox.setAlignment(Pos.CENTER);
+        saveHBox.setPadding(new Insets(2,8,0,8));
+        final int BUTTON_WIDTH = 9000;
+        ADD_BUTTON.setPrefWidth(BUTTON_WIDTH);
+        saveHBox.getChildren().addAll(ADD_BUTTON);
 
         // set items in the grid
         gridInput.getChildren().addAll(
@@ -92,9 +91,7 @@ public class FishermanView extends View{
                 TEXTFIELD_FIRSTNAME,
                 TEXTFIELD_LASTNAME,
                 TEXTFIELD_CITY,
-                DATEPICKER_DATE_OF_BIRTH,
-                ADD_BUTTON,
-                EDIT_BUTTON
+                DATEPICKER_DATE_OF_BIRTH
         );
 
         // list grid
@@ -116,6 +113,7 @@ public class FishermanView extends View{
         GridPane.setConstraints(fishermanList, 0, 0);
         // create an array for the buttons
         Node[] buttonArray = {
+                NEW_BUTTON,
                 DELETE_BUTTON,
                 SWITCH_BUTTON,
         };
@@ -130,11 +128,13 @@ public class FishermanView extends View{
         );
         gridButton.getChildren().addAll(
                 DELETE_BUTTON,
-                SWITCH_BUTTON
+                SWITCH_BUTTON,
+                NEW_BUTTON
         );
 
         fishVBox.getChildren().addAll(
                 gridInput,
+                saveHBox,
                 gridList,
                 gridButton
         );
@@ -154,8 +154,8 @@ public class FishermanView extends View{
         return fishermanList;
     }
 
-    public Button getEDIT_BUTTON() {
-        return EDIT_BUTTON;
+    public Button getNEW_BUTTON() {
+        return NEW_BUTTON;
     }
 
     public Button getADD_BUTTON() {

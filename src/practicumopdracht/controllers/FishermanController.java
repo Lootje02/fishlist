@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import practicumopdracht.MainApplication;
 import practicumopdracht.data.DAO;
 import practicumopdracht.data.FakeFishermanDAO;
+import practicumopdracht.data.FishDAO;
 import practicumopdracht.data.FishermanDAO;
 import practicumopdracht.models.Fish;
 import practicumopdracht.models.Fisherman;
@@ -15,6 +16,7 @@ import practicumopdracht.views.FishermanView;
 import practicumopdracht.views.View;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * This method <description of function>
@@ -80,7 +82,8 @@ public class FishermanController extends Controller {
                     view.getTEXTFIELD_CITY().getText()
             );
             // add fisherman to list
-            fishermanDAO.addOrUpdate(selectedFisherman);
+            fishermanDAO.addOrUpdate
+                    (selectedFisherman);
             // refresh the list
             refreshList();
             // make fields default
@@ -100,7 +103,7 @@ public class FishermanController extends Controller {
      * function to set actions on all the buttons
      */
     public void setActionsOnButtons() {
-        view.getEDIT_BUTTON().setOnAction(e -> updateProfile());
+        view.getNEW_BUTTON().setOnAction(e -> setAllFieldsToDefault());
         view.getSWITCH_BUTTON().setOnAction(e -> SwitchToDetails());
         view.getADD_BUTTON().setOnAction(e -> addFishermanToList());
         view.getDELETE_BUTTON().setOnAction(e -> showAlert(
@@ -135,13 +138,13 @@ public class FishermanController extends Controller {
     public void disableButtons() {
         view.getDELETE_BUTTON().setDisable(true);
         view.getSWITCH_BUTTON().setDisable(true);
-        view.getEDIT_BUTTON().setDisable(true);
+        view.getNEW_BUTTON().setDisable(true);
     }
 
     public void enableButtons() {
         view.getDELETE_BUTTON().setDisable(false);
         view.getSWITCH_BUTTON().setDisable(false);
-        view.getEDIT_BUTTON().setDisable(false);
+        view.getNEW_BUTTON().setDisable(false);
     }
 
     public void refreshList() {
@@ -194,6 +197,8 @@ public class FishermanController extends Controller {
     }
 
     public void setAllFieldsToDefault() {
+        // set selected object to null
+        selectedFisherman = null;
         // empty textfields
         TextField[] textFields = {
                 view.getTEXTFIELD_FIRSTNAME(),
@@ -261,5 +266,19 @@ public class FishermanController extends Controller {
     @Override
     public View getView() {
         return view;
+    }
+
+    @Override
+    public void deleteItemFromList() {
+        // create FishDao to get all the fishes for the selected fisherman
+        FishDAO fishDAO = MainApplication.getFishDAO();
+        List<Fish> fishForSelectedFisherman = fishDAO.getAllFor(selectedFisherman);
+        // delete all the fishes
+        for (Fish fish : fishForSelectedFisherman) {
+            fishDAO.remove(fish);
+        }
+        // remove the fisherman from the list
+        fishermanDAO.remove(selectedFisherman);
+        refreshList();
     }
 }
