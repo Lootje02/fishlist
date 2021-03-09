@@ -62,7 +62,8 @@ public class FishermanController extends Controller {
             showAlert(
                     Alert.AlertType.ERROR,
                     "Errors gevonden",
-                    ("Er zijn verschillende fouten geconstateerd\n" + ErrorText)
+                    ("Er zijn verschillende fouten geconstateerd\n" + ErrorText),
+                    "Default"
             );
         } else {
             // firstname
@@ -92,7 +93,8 @@ public class FishermanController extends Controller {
             showAlert(
                     Alert.AlertType.INFORMATION,
                     "Succesvol",
-                    ("Het aanpassen van je visser is gelukt\n" + selectedFisherman.toString())
+                    ("Het aanpassen van je visser is gelukt\n" + selectedFisherman.toString()),
+                    "Default"
             );
             // after changing the values update the list
             refreshList();
@@ -103,13 +105,34 @@ public class FishermanController extends Controller {
      * function to set actions on all the buttons
      */
     public void setActionsOnButtons() {
+        // toolbar
+        view.getITEM_EXIT().setOnAction(e -> showAlert(
+                Alert.AlertType.CONFIRMATION,
+                "Afsluiten",
+                "Wil je voor het afsluiten de data nog opslaan?",
+                "Exit"
+        ));
+        view.getITEM_SAVE().setOnAction(e -> showAlert(
+                Alert.AlertType.CONFIRMATION,
+                "Opslaan",
+                "Weet je zeker dat je de gegevens wilt opslaan?",
+                "Save"
+        ));
+        view.getITEM_LOAD().setOnAction(e -> showAlert(
+                Alert.AlertType.CONFIRMATION,
+                "Opslaan",
+                "Weet je zeker dat je de gegevens wilt laden?",
+                "Load"
+        ));
+        // other buttons
         view.getNEW_BUTTON().setOnAction(e -> setAllFieldsToDefault());
         view.getSWITCH_BUTTON().setOnAction(e -> SwitchToDetails());
         view.getADD_BUTTON().setOnAction(e -> addFishermanToList());
         view.getDELETE_BUTTON().setOnAction(e -> showAlert(
                 Alert.AlertType.CONFIRMATION,
                 "Delete",
-                "Weet je zeker dat je dit wilt verwijderen?"
+                "Weet je zeker dat je dit wilt verwijderen?",
+                "Delete"
         ));
     }
 
@@ -133,6 +156,14 @@ public class FishermanController extends Controller {
         view.getTEXTFIELD_CITY().setText(
                 selectedFisherman.getCity()
         );
+    }
+
+    public boolean loadItemFromTextFile() {
+        return fishermanDAO.load();
+    }
+
+    public boolean saveItemToTextFile() {
+        return fishermanDAO.save();
     }
 
     public void disableButtons() {
@@ -160,7 +191,8 @@ public class FishermanController extends Controller {
             showAlert(
                     Alert.AlertType.ERROR,
                     "Errors gevonden",
-                    ("Er zijn verschillende fouten geconstateerd\n" + ErrorText)
+                    ("Er zijn verschillende fouten geconstateerd\n" + ErrorText),
+                    "Default"
             );
         } else {
             // create object of fish
@@ -175,7 +207,8 @@ public class FishermanController extends Controller {
             showAlert(
                     Alert.AlertType.INFORMATION,
                     "Succesvol",
-                    ("Het opslaan van je visser is gelukt\n" + fisherman.toString())
+                    ("Het opslaan van je visser is gelukt\n" + fisherman.toString()),
+                    "Default"
             );
         }
     }

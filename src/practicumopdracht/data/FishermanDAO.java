@@ -19,6 +19,14 @@ public abstract class FishermanDAO implements DAO<Fisherman>{
         load();
     }
 
+    public int getIdFor(Fisherman object) {
+        try {
+            return objects.indexOf(object);
+        } catch (Exception ex) {
+            return -1;
+        }
+    }
+
     public Fisherman getById(int id) {
         for (Fisherman fisherman : objects) {
             if (fisherman.getId() == id) {

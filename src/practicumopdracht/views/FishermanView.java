@@ -37,7 +37,12 @@ public class FishermanView extends View{
     private final Button DELETE_BUTTON = new Button("Verwijder");
     private final Button NEW_BUTTON = new Button("Nieuw");
     private final Button ADD_BUTTON = new Button("Opslaan");
-
+    // menu bar
+    private final MenuBar MENU_BAR = new MenuBar();
+    // menu items
+    private final MenuItem ITEM_LOAD = new MenuItem("Laden");
+    private final MenuItem ITEM_SAVE = new MenuItem("Opslaan");
+    private final MenuItem ITEM_EXIT = new MenuItem("Afsluiten");
     // root
     private Parent root;
 
@@ -48,6 +53,19 @@ public class FishermanView extends View{
     public void initLayout() {
         // list VBox
         VBox fishVBox = new VBox();
+        // menu bar
+        // menu button
+        Menu menuFile = new Menu("Bestand");
+        // menu items
+        menuFile.getItems().addAll(
+                ITEM_LOAD,
+                ITEM_SAVE,
+                ITEM_EXIT
+        );
+        MENU_BAR.getMenus().add(menuFile);
+        // menu vBox
+        VBox menuVBox = new VBox(MENU_BAR);
+
         // input grid
         GridPane gridInput = new GridPane();
         gridInput.setPadding(new Insets(10,10,10,10));
@@ -133,6 +151,7 @@ public class FishermanView extends View{
         );
 
         fishVBox.getChildren().addAll(
+                menuVBox,
                 gridInput,
                 saveHBox,
                 gridList,
@@ -180,6 +199,18 @@ public class FishermanView extends View{
 
     public Button getDELETE_BUTTON() {
         return DELETE_BUTTON;
+    }
+
+    public MenuItem getITEM_LOAD() {
+        return ITEM_LOAD;
+    }
+
+    public MenuItem getITEM_SAVE() {
+        return ITEM_SAVE;
+    }
+
+    public MenuItem getITEM_EXIT() {
+        return ITEM_EXIT;
     }
 
     /**

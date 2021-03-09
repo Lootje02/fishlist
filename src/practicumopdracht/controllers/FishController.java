@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import practicumopdracht.MainApplication;
 import practicumopdracht.data.FishDAO;
+import practicumopdracht.data.TextFishDAO;
 import practicumopdracht.models.Fish;
 import practicumopdracht.models.Fisherman;
 import practicumopdracht.views.FishView;
@@ -61,6 +62,10 @@ public class FishController extends Controller {
         );
     }
 
+    public FishController() {
+        fishDAO = MainApplication.getFishDAO();
+    }
+
     public void setActionsOnButtons() {
         view.getNEW_BUTTON().setOnAction(e -> setAllFieldsToDefault());
         view.getSWITCH_BUTTON().setOnAction(e -> switchToList());
@@ -68,7 +73,8 @@ public class FishController extends Controller {
         view.getDELETE_BUTTON().setOnAction(e -> showAlert(
                 Alert.AlertType.CONFIRMATION,
                 "Delete",
-                "Weet je zeker dat je dit wilt verwijderen?"
+                "Weet je zeker dat je dit wilt verwijderen?",
+                "Delete"
         ));
     }
 
@@ -123,9 +129,19 @@ public class FishController extends Controller {
         );
     }
 
+    public boolean loadItemFromTextFile() {
+        return fishDAO.load();
+    }
+
+    public boolean saveItemToTextFile() {
+        return fishDAO.save();
+    }
+
     public void refreshList() {
         ObservableList<Fish> fishList = FXCollections.observableList(fishDAO.getAllFor(currentFisherman));
         view.getFishlist().setItems(fishList);
+        TextFishDAO textFishDAO = new TextFishDAO();
+        textFishDAO.save();
     }
 
     public void disableButtons() {
@@ -160,7 +176,8 @@ public class FishController extends Controller {
             showAlert(
                 Alert.AlertType.ERROR,
                 "Error gevonden",
-                ("Er zijn verschillende fouten geconstateerd\n" + ErrorText)
+                ("Er zijn verschillende fouten geconstateerd\n" + ErrorText),
+                    "Default"
             );
         } else {
             // create object of fish
@@ -179,7 +196,8 @@ public class FishController extends Controller {
             showAlert(
                     Alert.AlertType.INFORMATION,
                     "Succesvol",
-                    ("Het opslaan van je vis is gelukt\n" + fish.toString())
+                    ("Het opslaan van je vis is gelukt\n" + fish.toString()),
+                    "Default"
             );
         }
     }

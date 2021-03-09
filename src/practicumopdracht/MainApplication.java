@@ -6,10 +6,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import practicumopdracht.controllers.Controller;
 import practicumopdracht.controllers.FishermanController;
-import practicumopdracht.data.FakeFishDAO;
-import practicumopdracht.data.FakeFishermanDAO;
-import practicumopdracht.data.FishDAO;
-import practicumopdracht.data.FishermanDAO;
+import practicumopdracht.data.*;
 
 public class MainApplication extends Application {
     private static Stage stage;
@@ -35,8 +32,8 @@ public class MainApplication extends Application {
         stage.setWidth(640);
         stage.setHeight(700);
 
-        fishDAO = new FakeFishDAO();
-        fishermanDAO = new FakeFishermanDAO();
+        fishDAO = new TextFishDAO();
+        fishermanDAO = new TextFishermanDAO();
 
         switchWindows(new FishermanController());
     }
