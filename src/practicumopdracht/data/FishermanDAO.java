@@ -28,22 +28,11 @@ public abstract class FishermanDAO implements DAO<Fisherman>{
     }
 
     public Fisherman getById(int id) {
-        for (Fisherman fisherman : objects) {
-            if (fisherman.getId() == id) {
-                return fisherman;
-            }
+        try {
+            return objects.get(id);
+        } catch (Exception ex) {
+            return null;
         }
-        return null;
-    }
-
-    private int getUniqueId() {
-       int highestId = 0;
-       for(Fisherman fisherman : objects) {
-           if (fisherman.getId() > highestId) {
-               highestId = fisherman.getId();
-           }
-       }
-       return highestId+1;
     }
 
     @Override
@@ -53,24 +42,21 @@ public abstract class FishermanDAO implements DAO<Fisherman>{
 
     @Override
     public void addOrUpdate(Fisherman object) {
-        if (object.getId() <= 0) {
-            object.setId(getUniqueId());
+        // find the index of the selected object
+        final int FISHERMAN_INDEX = objects.indexOf(object);
+        // check if the object exist in the list
+        if (!objects.contains(object)) {
             objects.add(object);
         } else {
-            Fisherman foundFisherman = getById(object.getId());
-            if (foundFisherman == null) {
-                objects.add(object);
-            } else {
-                int index = objects.indexOf(foundFisherman);
-                objects.set(index, object);
-            }
+            objects.set(FISHERMAN_INDEX, object);
         }
     }
 
     @Override
     public void remove(Fisherman object) {
         // create fisherman and remove it
-        Fisherman foundFisherman = getById(object.getId());
+        final int FISHERMAN_INDEX = objects.indexOf(object);
+        Fisherman foundFisherman = getById(FISHERMAN_INDEX);
         if (foundFisherman != null) {
             objects.remove(foundFisherman);
         }

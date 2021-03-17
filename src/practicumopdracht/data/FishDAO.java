@@ -1,5 +1,6 @@
 package practicumopdracht.data;
 
+import practicumopdracht.MainApplication;
 import practicumopdracht.models.Fish;
 import practicumopdracht.models.Fisherman;
 
@@ -14,35 +15,28 @@ import java.util.List;
  */
 public abstract class FishDAO implements DAO<Fish>{
     protected List<Fish> objects;
+    protected FishermanDAO fishermanDAO;
 
     public FishDAO() {
         this.objects = new ArrayList<>();
+        fishermanDAO = MainApplication.getFishermanDAO();
+
         load();
     }
 
     public Fish getById(int id) {
-        for (Fish fish : objects) {
-            if (fish.getId() == id) {
-                return fish;
-            }
+        try {
+            return objects.get(id);
+        } catch (Exception ex) {
+            return null;
         }
-        return null;
-    }
-
-    private int getUniqueId() {
-        int highestId = 0;
-        for(Fish fish : objects) {
-            if (fish.getId() > highestId) {
-                highestId = fish.getId();
-            }
-        }
-        return highestId+1;
     }
 
     public List<Fish> getAllFor(Fisherman fisherman) {
         List<Fish> fishList = new ArrayList<>();
         for (Fish fish : objects) {
-            if (fish.getHoortBij() == fisherman.getId()) {
+            // check if fish is part of fisherman
+            if (fish.getHoortBij().equals(fisherman)) {
                 fishList.add(fish);
             }
         }
@@ -56,28 +50,24 @@ public abstract class FishDAO implements DAO<Fish>{
 
     @Override
     public void addOrUpdate(Fish object) {
-        if (object.getId() <= 0) {
-            object.setId(getUniqueId());
+        final int FISH_INDEX = objects.indexOf(object);
+        final int NOT_IN_LIST = -1;
+        // check if the object exist in the list
+        if (FISH_INDEX == NOT_IN_LIST) {
             objects.add(object);
         } else {
-            Fish foundFish = getById(object.getId());
-            if (foundFish == null) {
-                objects.add(object);
-            } else {
-                int index = objects.indexOf(foundFish);
-                objects.set(index, object);
-            }
+            objects.set(FISH_INDEX, object);
         }
     }
 
     @Override
     public void remove(Fish object) {
         // create fisherman and remove it
-        Fish foundFish = getById(object.getId());
-        if (foundFish == null) {
-          return;
+        final int FISH_INDEX = objects.indexOf(object);
+        Fish foundFish = getById(FISH_INDEX);
+        if (foundFish != null) {
+            objects.remove(foundFish);
         }
-        objects.remove(foundFish);
     }
 
     @Override

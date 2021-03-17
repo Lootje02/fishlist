@@ -138,10 +138,10 @@ public class FishController extends Controller {
     }
 
     public void refreshList() {
+//        TextFishDAO textFishDAO = new TextFishDAO();
+//        textFishDAO.load();
         ObservableList<Fish> fishList = FXCollections.observableList(fishDAO.getAllFor(currentFisherman));
         view.getFishlist().setItems(fishList);
-        TextFishDAO textFishDAO = new TextFishDAO();
-        textFishDAO.save();
     }
 
     public void disableButtons() {
@@ -181,11 +181,10 @@ public class FishController extends Controller {
             );
         } else {
             // create object of fish
-            Fish fish = createFishObject();
-            // check if there is a fish selected than update
-            if (selectedFish != null) {
-                fish.setId(selectedFish.getId());
-            }
+            Fish fish =
+                    selectedFish != null
+                    ? selectedFish
+                    : createFishObject();
             // add the fish to the list
             fishDAO.addOrUpdate(fish);
             // refresh the list
@@ -276,8 +275,7 @@ public class FishController extends Controller {
                bait = view.getTEXTFIELD_BAIT().getText(),
                remark = view.getREMARK_TEXTAREA().getText();
         LocalDate date = view.getDATEPICKER_CAUGHT_ON().getValue();
-        int lengthInCm,
-            fishermanId = currentFisherman.getId();
+        int lengthInCm;
         double weightInKg;
         boolean prefeed = view.getPREFEED_CHECKBOX().isSelected(),
                 gotOnside = view.getGOT_ON_SIDE_CHECKBOX().isSelected();
@@ -299,7 +297,7 @@ public class FishController extends Controller {
         // create object of input
          final Fish FISH = new Fish(
                 fishSpecies,
-                fishermanId,
+                currentFisherman,
                 lengthInCm,
                 weightInKg,
                 date,

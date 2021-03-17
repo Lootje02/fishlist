@@ -25,7 +25,6 @@ public class TextFishermanDAO extends FishermanDAO {
 
             // loop through objects to set for each item the field in the file
             for (Fisherman fisherman : objects) {
-                printWriter.println(fisherman.getId());
                 printWriter.println(fisherman.getFirstname());
                 printWriter.println(fisherman.getLastname());
                 printWriter.println(fisherman.getDate_of_birth());
@@ -47,7 +46,6 @@ public class TextFishermanDAO extends FishermanDAO {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNext()) {
                 // read the lines from the txt file
-                int id = Integer.parseInt(scanner.nextLine());
                 String firstname = scanner.nextLine();
                 String lastname = scanner.nextLine();
                 LocalDate dateOfBirth = LocalDate.parse(scanner.nextLine());
@@ -60,10 +58,8 @@ public class TextFishermanDAO extends FishermanDAO {
                         dateOfBirth,
                         city
                 );
-                // update the id of the fisherman object
-                fisherman.setId(id);
                 // add the fisherman to the list
-                objects.add(fisherman);
+                addOrUpdate(fisherman);
             }
         } catch (Exception ex) {
             System.out.println(ex);

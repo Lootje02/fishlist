@@ -1,5 +1,6 @@
 package practicumopdracht.data;
 
+import practicumopdracht.MainApplication;
 import practicumopdracht.models.Fish;
 import practicumopdracht.models.Fisherman;
 
@@ -26,8 +27,8 @@ public class TextFishDAO extends FishDAO{
 
             // loop through objects to set for each item the field in the file
             for (Fish fish : objects) {
-                printWriter.println(fish.getId());
-                printWriter.println(fish.getHoortBij());
+                int fishermanIndex = MainApplication.getFishermanDAO().getIdFor(fish.getHoortBij());
+                printWriter.println(fishermanIndex);
                 printWriter.println(fish.getFishSpecies());
                 printWriter.println(fish.getFishLengthInCm());
                 printWriter.println(fish.getWeightInKg());
@@ -55,9 +56,8 @@ public class TextFishDAO extends FishDAO{
             Scanner scanner = new Scanner(file);
             while (scanner.hasNext()) {
                 // read the lines from the txt file
-                int id = Integer.parseInt(scanner.nextLine());
+                int index = Integer.parseInt(scanner.nextLine());
                 String fishSpecies = scanner.nextLine();
-                int hoortBij = Integer.parseInt(scanner.nextLine());
                 int fishLengthInCm = Integer.parseInt(scanner.nextLine());
                 double weightInKg = Double.parseDouble(scanner.nextLine());
                 LocalDate caughtOn = LocalDate.parse(scanner.nextLine());
@@ -68,10 +68,12 @@ public class TextFishDAO extends FishDAO{
                 boolean gotOnSide = Boolean.parseBoolean(scanner.nextLine());
                 String remark = scanner.nextLine();
 
+                Fisherman fisherman = MainApplication.getFishermanDAO().getById(index);
+
                 // create new fisherman object
                 Fish fish = new Fish(
                         fishSpecies,
-                        hoortBij,
+                        fisherman,
                         fishLengthInCm,
                         weightInKg,
                         caughtOn,
@@ -82,10 +84,8 @@ public class TextFishDAO extends FishDAO{
                         gotOnSide,
                         remark
                 );
-                // update the id of the fisherman object
-                fish.setId(id);
                 // add the fisherman to the list
-                objects.add(fish);
+                addOrUpdate(fish);
             }
         } catch (Exception ex) {
             System.out.println(ex);

@@ -17,34 +17,34 @@ public class FakeFishDAO extends FishDAO{
 
 
     public boolean load() {
-        Fish fish1 = new Fish(
-                "Karper",
-                1,
-                2,
-                2,
-                LocalDate.now(),
-                "Zoet water",
-                "Uithoorn",
-                "Mais",
-                true,
-                true,
-                "niks"
-        );
-        Fish fish2 = new Fish(
-                "Karper",
-                1,
-                2,
-                2,
-                LocalDate.now(),
-                "Zoet water",
-                "Uithoorn",
-                "Mais",
-                true,
-                true,
-                "niks"
-        );
-        super.addOrUpdate(fish1);
-        super.addOrUpdate(fish2);
+//        Fish fish1 = new Fish(
+//                "Karper",
+//                1,
+//                2,
+//                2,
+//                LocalDate.now(),
+//                "Zoet water",
+//                "Uithoorn",
+//                "Mais",
+//                true,
+//                true,
+//                "niks"
+//        );
+//        Fish fish2 = new Fish(
+//                "Karper",
+//                1,
+//                2,
+//                2,
+//                LocalDate.now(),
+//                "Zoet water",
+//                "Uithoorn",
+//                "Mais",
+//                true,
+//                true,
+//                "niks"
+//        );
+//        super.addOrUpdate(fish1);
+//        super.addOrUpdate(fish2);
         return true;
     }
 }

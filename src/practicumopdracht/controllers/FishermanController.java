@@ -196,7 +196,10 @@ public class FishermanController extends Controller {
             );
         } else {
             // create object of fish
-            Fisherman fisherman = createFishermanObject();
+            Fisherman fisherman =
+                    selectedFisherman != null
+                    ? selectedFisherman
+                    : createFishermanObject();
             // add fisherman to list
             fishermanDAO.addOrUpdate(fisherman);
             // refresh the list

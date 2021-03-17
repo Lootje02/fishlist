@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * @author Lorenzo Bindemann
  */
 public class Fisherman {
-    private int id;
     private String firstname;
     private String lastname;
     private LocalDate date_of_birth;
@@ -62,13 +61,6 @@ public class Fisherman {
         this.city = city;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @Override
     public String toString() {
