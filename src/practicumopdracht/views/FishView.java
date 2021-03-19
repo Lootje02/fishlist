@@ -15,6 +15,7 @@ import practicumopdracht.models.Fish;
 import practicumopdracht.models.Fisherman;
 
 import java.lang.reflect.Array;
+import java.util.Collection;
 
 /**
  * This method <description of function>
@@ -61,6 +62,13 @@ public class FishView extends View{
     private final Button DELETE_BUTTON = new Button("Verwijderen");
     private final Button SAVE_BUTTON = new Button("Opslaan");
     private final Button SWITCH_BUTTON = new Button("Schakelen");
+    // toggleGroup
+    private final ToggleGroup SORTING_TOGGLE_GROUP = new ToggleGroup();
+    // radio buttons
+    private final RadioButton SPECIES_AZ = new RadioButton("Soort A/Z");
+    private final RadioButton SPECIES_ZA = new RadioButton("Soort Z/A");
+    private final RadioButton LENGTH_LOW_TO_HIGH = new RadioButton("Lengte klein/groot");
+    private final RadioButton LENGTH_HIGH_TO_LOW = new RadioButton("Lengte groot/klein");
 
     // root
     private Parent root;
@@ -119,9 +127,38 @@ public class FishView extends View{
         gridList.setHgap(10);
 
         // create listview
+        final int FISHLIST_WIDTH = 600;
         fishlist = new ListView<>();
-        fishlist.setPrefWidth(600);
+        fishlist.setPrefWidth(FISHLIST_WIDTH);
 
+        // set radio buttons
+        HBox sortingHBox = new HBox();
+        sortingHBox.setPadding(new Insets(2,8,0,8));
+        // radio button array
+        RadioButton[] radioButtonArray = {
+                SPECIES_AZ,
+                SPECIES_ZA,
+                LENGTH_LOW_TO_HIGH,
+                LENGTH_HIGH_TO_LOW,
+        };
+        int valueOfRadioButton = 0;
+        final int FIRST_ITEM = 0;
+        for (RadioButton radioButton : radioButtonArray) {
+            // add readable value to radiobutton
+            radioButton.setUserData(valueOfRadioButton);
+            // add radio button to togglegroup
+            SORTING_TOGGLE_GROUP.getToggles().add(radioButton);
+            // set selected item on start
+            if (valueOfRadioButton == FIRST_ITEM) {
+                SORTING_TOGGLE_GROUP.selectToggle(radioButton);
+            }
+            valueOfRadioButton++;
+            // set padding to radiobutton
+            radioButton.setPadding(new Insets(10,10,10,10));
+            // add radio button to the HBox
+            sortingHBox.getChildren().add(radioButton);
+
+        }
         // set the list on the right position
         GridPane.setConstraints(fishlist, 0, 0);
         gridList.getChildren().addAll(fishlist);
@@ -173,6 +210,7 @@ public class FishView extends View{
                 grid,
                 saveHBox,
                 gridList,
+                sortingHBox,
                 buttonHBox
         );
 
@@ -250,7 +288,13 @@ public class FishView extends View{
         return WATERTYPE_COMBOBOX;
     }
 
-
+    /**
+     * getter for toggle group to read the selected item
+     * @return
+     */
+    public ToggleGroup getSORTING_TOGGLE_GROUP() {
+        return SORTING_TOGGLE_GROUP;
+    }
 
     /**
      * getter function for the view

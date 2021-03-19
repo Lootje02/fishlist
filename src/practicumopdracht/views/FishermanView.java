@@ -43,6 +43,8 @@ public class FishermanView extends View{
     private final MenuItem ITEM_LOAD = new MenuItem("Laden");
     private final MenuItem ITEM_SAVE = new MenuItem("Opslaan");
     private final MenuItem ITEM_EXIT = new MenuItem("Afsluiten");
+    private final MenuItem SORT_AZ = new MenuItem("Sorteer A/Z");
+    private final MenuItem SORT_ZA = new MenuItem("Sorteer Z/A");
     // root
     private Parent root;
 
@@ -62,7 +64,18 @@ public class FishermanView extends View{
                 ITEM_SAVE,
                 ITEM_EXIT
         );
-        MENU_BAR.getMenus().add(menuFile);
+        // create menu sort item
+        Menu menuSort = new Menu("Sorteren");
+        // add menu items
+        menuSort.getItems().addAll(
+                SORT_AZ,
+                SORT_ZA
+        );
+        // add buttons to menu bar
+        MENU_BAR.getMenus().addAll(
+                menuFile,
+                menuSort
+        );
         // menu vBox
         VBox menuVBox = new VBox(MENU_BAR);
 
@@ -211,6 +224,14 @@ public class FishermanView extends View{
 
     public MenuItem getITEM_EXIT() {
         return ITEM_EXIT;
+    }
+
+    public MenuItem getSORT_AZ() {
+        return SORT_AZ;
+    }
+
+    public MenuItem getSORT_ZA() {
+        return SORT_ZA;
     }
 
     /**

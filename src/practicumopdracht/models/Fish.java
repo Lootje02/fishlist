@@ -1,5 +1,6 @@
 package practicumopdracht.models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -8,8 +9,8 @@ import java.time.format.DateTimeFormatter;
  *
  * @author Lorenzo Bindemann
  */
-public class Fish{
-    private Fisherman hoortBij;
+public class Fish implements Serializable {
+    private transient Fisherman hoortBij;
     private String fishSpecies;
     private int fishLengthInCm;
     private double weightInKg;

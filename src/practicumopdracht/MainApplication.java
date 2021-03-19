@@ -32,8 +32,8 @@ public class MainApplication extends Application {
         stage.setWidth(640);
         stage.setHeight(700);
 
-        fishermanDAO = new TextFishermanDAO();
-        fishDAO = new TextFishDAO();
+        fishermanDAO = new BinaryFishermanDAO();
+        fishDAO = new ObjectFishDAO();
 
         switchWindows(new FishermanController());
     }

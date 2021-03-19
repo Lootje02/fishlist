@@ -5,6 +5,9 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import practicumopdracht.MainApplication;
+import practicumopdracht.comparators.FirstnameComparator;
+import practicumopdracht.comparators.LengthComparator;
+import practicumopdracht.comparators.SpeciesComparator;
 import practicumopdracht.data.FishDAO;
 import practicumopdracht.data.TextFishDAO;
 import practicumopdracht.models.Fish;
@@ -14,6 +17,7 @@ import practicumopdracht.views.View;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -33,7 +37,7 @@ public class FishController extends Controller {
 
         // set list
         fishDAO = MainApplication.getFishDAO();
-        refreshList();
+        refreshList("species", false);
         // set fishermans in combobox
         view.getFISHERMAN_LIST().setItems(FXCollections.observableList(
                 MainApplication.getFishermanDAO().getAll()
@@ -46,7 +50,7 @@ public class FishController extends Controller {
         view.getFISHERMAN_LIST().getSelectionModel().selectedItemProperty().addListener(
                 ((observableValue, oldFisherman, newFisherman) -> {
                     currentFisherman = newFisherman;
-                    refreshList();
+                    refreshList("species", false);
                 })
         );
         // set actions on buttons
@@ -66,7 +70,29 @@ public class FishController extends Controller {
         fishDAO = MainApplication.getFishDAO();
     }
 
+    public void toggleRadioButton(String radioButton) {
+        switch (radioButton) {
+            case "0":
+                refreshList("species", false);
+                break;
+            case "1":
+                refreshList("species", true);
+                break;
+            case "2":
+                refreshList("length", false);
+                break;
+            case "3":
+                refreshList("length", true);
+                break;
+        }
+    }
+
     public void setActionsOnButtons() {
+        // toggle group (radio buttons)
+        view.getSORTING_TOGGLE_GROUP().selectedToggleProperty().addListener((observableValue, oldSelected, newSelected) -> {
+            toggleRadioButton(newSelected.getUserData().toString());
+        });
+        // buttons
         view.getNEW_BUTTON().setOnAction(e -> setAllFieldsToDefault());
         view.getSWITCH_BUTTON().setOnAction(e -> switchToList());
         view.getSAVE_BUTTON().setOnAction(e -> addToFishList());
@@ -137,11 +163,28 @@ public class FishController extends Controller {
         return fishDAO.save();
     }
 
-    public void refreshList() {
-//        TextFishDAO textFishDAO = new TextFishDAO();
-//        textFishDAO.load();
+    public void refreshList(String sortingType, Boolean order) {
         ObservableList<Fish> fishList = FXCollections.observableList(fishDAO.getAllFor(currentFisherman));
+        fishList = sortList(fishList, sortingType, order);
         view.getFishlist().setItems(fishList);
+    }
+
+    public ObservableList<Fish> sortList(
+            ObservableList<Fish> fishList,
+            String sortingType,
+            boolean order
+    ) {
+        // to check which Compartor object should be created
+        String[] sortableTypes = {"species", "length"};
+        Comparator<Fish> activeComparator;
+        if (sortingType == sortableTypes[0]) {
+            activeComparator = new SpeciesComparator(order);
+            activeComparator = new SpeciesComparator(order);
+        } else {
+            activeComparator = new LengthComparator(order);
+        }
+        FXCollections.sort(fishList, activeComparator);
+        return fishList;
     }
 
     public void disableButtons() {
@@ -188,7 +231,7 @@ public class FishController extends Controller {
             // add the fish to the list
             fishDAO.addOrUpdate(fish);
             // refresh the list
-            refreshList();
+            refreshList("species", false);
             // make fields default
             setAllFieldsToDefault();
             // show succes alert
@@ -314,6 +357,6 @@ public class FishController extends Controller {
     @Override
     public void deleteItemFromList() {
         fishDAO.remove(selectedFish);
-        refreshList();
+        refreshList("species", false);
     }
 }

@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import practicumopdracht.MainApplication;
+import practicumopdracht.comparators.FirstnameComparator;
 import practicumopdracht.data.DAO;
 import practicumopdracht.data.FakeFishermanDAO;
 import practicumopdracht.data.FishDAO;
@@ -16,6 +17,7 @@ import practicumopdracht.views.FishermanView;
 import practicumopdracht.views.View;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -33,7 +35,6 @@ public class FishermanController extends Controller {
 
         // set list
         fishermanDAO = MainApplication.getFishermanDAO();
-        refreshList();
 
         // set actions on buttons
         setActionsOnButtons();
@@ -49,6 +50,7 @@ public class FishermanController extends Controller {
                     enableButtons();
                 }
         );
+        refreshList(false);
     }
 
     /**
@@ -86,7 +88,7 @@ public class FishermanController extends Controller {
             fishermanDAO.addOrUpdate
                     (selectedFisherman);
             // refresh the list
-            refreshList();
+            refreshList(false);
             // make fields default
             setAllFieldsToDefault();
             // show succes alert
@@ -97,7 +99,7 @@ public class FishermanController extends Controller {
                     "Default"
             );
             // after changing the values update the list
-            refreshList();
+            refreshList(false);
         }
     }
 
@@ -106,6 +108,7 @@ public class FishermanController extends Controller {
      */
     public void setActionsOnButtons() {
         // toolbar
+        // file buttons
         view.getITEM_EXIT().setOnAction(e -> showAlert(
                 Alert.AlertType.CONFIRMATION,
                 "Afsluiten",
@@ -124,6 +127,9 @@ public class FishermanController extends Controller {
                 "Weet je zeker dat je de gegevens wilt laden?",
                 "Load"
         ));
+        // sort buttons
+        view.getSORT_AZ().setOnAction(e -> refreshList(false));
+        view.getSORT_ZA().setOnAction(e -> refreshList(true));
         // other buttons
         view.getNEW_BUTTON().setOnAction(e -> setAllFieldsToDefault());
         view.getSWITCH_BUTTON().setOnAction(e -> SwitchToDetails());
@@ -178,8 +184,10 @@ public class FishermanController extends Controller {
         view.getNEW_BUTTON().setDisable(false);
     }
 
-    public void refreshList() {
-        ObservableList<Fisherman> fishermanList = FXCollections.observableList(fishermanDAO.getAll());
+    public void refreshList(boolean sortingType) {
+        ObservableList<Fisherman> fishermanList = FXCollections.observableArrayList(fishermanDAO.getAll());
+        Comparator<Fisherman> activeComparator = new FirstnameComparator(sortingType);
+        FXCollections.sort(fishermanList, activeComparator);
         view.getFishermanList().setItems(fishermanList);
     }
 
@@ -203,7 +211,7 @@ public class FishermanController extends Controller {
             // add fisherman to list
             fishermanDAO.addOrUpdate(fisherman);
             // refresh the list
-            refreshList();
+            refreshList(false);
             // make fields default
             setAllFieldsToDefault();
             // show succes alert
@@ -284,10 +292,6 @@ public class FishermanController extends Controller {
         return errorText;
     }
 
-    public void setFishermanList() {
-//        FakeFishermanDAO.load();
-    }
-
     /**
      * function to switch the views
      */
@@ -315,6 +319,6 @@ public class FishermanController extends Controller {
         }
         // remove the fisherman from the list
         fishermanDAO.remove(selectedFisherman);
-        refreshList();
+        refreshList(false);
     }
 }

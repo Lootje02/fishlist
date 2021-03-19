@@ -15,11 +15,9 @@ import java.util.List;
  */
 public abstract class FishDAO implements DAO<Fish>{
     protected List<Fish> objects;
-    protected FishermanDAO fishermanDAO;
 
     public FishDAO() {
         this.objects = new ArrayList<>();
-        fishermanDAO = MainApplication.getFishermanDAO();
 
         load();
     }
