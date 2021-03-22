@@ -7,18 +7,22 @@ import javafx.scene.control.ButtonType;
 import practicumopdracht.views.View;
 
 /**
- * This method <description of function>
+ * This method is an abstract class for the other controllers
  *
  * @author Lorenzo Bindemann
  */
 public abstract class Controller {
-//    private final FishController FISH_CONTROLLER = new FishController();
-//    private final FishermanController FISHERMAN_CONTROLLER = new FishermanController();
 
+    /**
+     * abstract function for the view
+     *
+     * @return
+     */
     public abstract View getView();
 
     /**
      * generic function to show an alert
+     *
      * @param type
      * @param title
      * @param description
@@ -37,13 +41,13 @@ public abstract class Controller {
         // check if the type is a confirmation than change the functions and buttons
         if (let == Alert.AlertType.CONFIRMATION) {
             switch (typeAlert) {
-                case "Delete" :
+                case "Delete":
                     // set items to delete
                     ((Button) errorAlert.getDialogPane().lookupButton(ButtonType.OK)).setText("Ja, verwijder");
                     ((Button) errorAlert.getDialogPane().lookupButton(ButtonType.OK)).setOnAction(e -> deleteItemFromList());
                     ((Button) errorAlert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("Nee, verwijder niet");
                     break;
-                case "Exit" :
+                case "Exit":
                     // set items to exit application
                     ((Button) errorAlert.getDialogPane().lookupButton(ButtonType.OK)).setText("Ja, sla eerst op");
                     ((Button) errorAlert.getDialogPane().lookupButton(ButtonType.OK)).setOnAction(e -> {
@@ -53,13 +57,13 @@ public abstract class Controller {
                     ((Button) errorAlert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("Nee, sluit af");
                     ((Button) errorAlert.getDialogPane().lookupButton(ButtonType.CANCEL)).setOnAction(e -> exitApplication());
                     break;
-                case "Save" :
+                case "Save":
                     // set items to exit application
                     ((Button) errorAlert.getDialogPane().lookupButton(ButtonType.OK)).setText("Ja, sla op");
                     ((Button) errorAlert.getDialogPane().lookupButton(ButtonType.OK)).setOnAction(e -> saveDetails());
                     ((Button) errorAlert.getDialogPane().lookupButton(ButtonType.CANCEL)).setText("Nee, sla niet op");
                     break;
-                case "Load" :
+                case "Load":
                     // set items to exit application
                     ((Button) errorAlert.getDialogPane().lookupButton(ButtonType.OK)).setText("Ja, laad gegevens");
                     ((Button) errorAlert.getDialogPane().lookupButton(ButtonType.OK)).setOnAction(e -> loadDetails());
@@ -71,15 +75,21 @@ public abstract class Controller {
     }
 
     /**
-     * to delete fish from the list
+     * abstract class to delete fish from the list
      */
     public abstract void deleteItemFromList();
 
+    /**
+     * function to exit the application using the toolbar
+     */
     public void exitApplication() {
         final int DEFAULT_EXIT_STATUS = 1;
         System.exit(DEFAULT_EXIT_STATUS);
     }
 
+    /**
+     * function to save the fisherman - and fish list to a file used in the toolbar
+     */
     public void saveDetails() {
         final FishController FISH_CONTROLLER = new FishController();
         final FishermanController FISHERMAN_CONTROLLER = new FishermanController();
@@ -91,18 +101,22 @@ public abstract class Controller {
             showAlert(
                     Alert.AlertType.INFORMATION,
                     "Opslaan gelukt",
-                    "Het opslaan van de data naar de text file is gelukt",
+                    "Het opslaan van de data naar de file is gelukt",
                     "Default"
             );
         } else {
             showAlert(
                     Alert.AlertType.ERROR,
                     "Laden mislukt",
-                    "Het opslaan van de data naar de text file is mislukt",
+                    "Het opslaan van de data naar de file is mislukt",
                     "Default"
             );
         }
     }
+
+    /**
+     * function to load all the details from a file used in the toolbar
+     */
     public void loadDetails() {
         final FishController FISH_CONTROLLER = new FishController();
         final FishermanController FISHERMAN_CONTROLLER = new FishermanController();
@@ -115,15 +129,15 @@ public abstract class Controller {
             showAlert(
                     Alert.AlertType.INFORMATION,
                     "Laden gelukt",
-                    "Het laden van de text file is gelukt",
+                    "Het laden van de file is gelukt",
                     "Default"
             );
         } else {
             showAlert(
-                  Alert.AlertType.ERROR,
-                  "Laden mislukt",
-                  "Het laden van de text file is mislukt",
-                  "Default"
+                    Alert.AlertType.ERROR,
+                    "Laden mislukt",
+                    "Het laden van de file is mislukt",
+                    "Default"
             );
         }
     }

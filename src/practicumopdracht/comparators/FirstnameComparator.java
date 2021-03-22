@@ -5,7 +5,8 @@ import practicumopdracht.models.Fisherman;
 import java.util.Comparator;
 
 /**
- * This method <description of function>
+ * This method is a comparator for sorting the firstname of the fisherman
+ * if the firstname is equal than sort the lastname
  *
  * @author Lorenzo Bindemann
  */
@@ -17,7 +18,8 @@ public class FirstnameComparator implements Comparator<Fisherman> {
     }
 
     /**
-     * function to sort the masterList
+     * function to sort the masterList on firstname or lastname
+     *
      * @param o1
      * @param o2
      * @return
@@ -30,11 +32,13 @@ public class FirstnameComparator implements Comparator<Fisherman> {
                 o2.getFirstname().toLowerCase()
         );
         final int MIN_RESULT = 0;
+        // if firstname is equal sort on lastname
         if (compareFirstname == MIN_RESULT) {
             return o1.getLastname().toLowerCase().compareTo(o2.getLastname().toLowerCase());
         }
         if (sortZA) {
-           return -compareFirstname;
+            // sort descending
+            return -compareFirstname;
         }
         return compareFirstname;
     }

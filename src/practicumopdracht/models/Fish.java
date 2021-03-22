@@ -59,94 +59,106 @@ public class Fish implements Serializable {
         this.remark = remark;
     }
 
+    /**
+     * getter for the fish species
+     * @return
+     */
     public String getFishSpecies() {
         return fishSpecies;
     }
 
+    /**
+     * setter for the hoortBij
+     * @param hoortBij
+     */
     public void setHoortBij(Fisherman hoortBij) {
         this.hoortBij = hoortBij;
     }
 
-    public void setFishSpecies(String fishSpecies) {
-        this.fishSpecies = fishSpecies;
-    }
-
+    /**
+     * getter for the fish length
+     * @return
+     */
     public int getFishLengthInCm() {
         return fishLengthInCm;
     }
 
-    public void setFishLengthInCm(int fishLengthInCm) {
-        this.fishLengthInCm = fishLengthInCm;
-    }
-
+    /**
+     * getter for the fish weight
+     * @return
+     */
     public double getWeightInKg() {
         return weightInKg;
     }
 
-    public void setWeightInKg(double weightInKg) {
-        this.weightInKg = weightInKg;
-    }
-
+    /**
+     * getter for the caught on date
+     * @return
+     */
     public LocalDate getCaughtOn() {
         return caughtOn;
     }
 
-    public void setCaughtOn(LocalDate caughtOn) {
-        this.caughtOn = caughtOn;
-    }
-
+    /**
+     * getter the waterType
+     * @return
+     */
     public String getWaterType() {
         return waterType;
     }
 
-    public void setWaterType(String waterType) {
-        this.waterType = waterType;
-    }
-
+    /**
+     * getter for the location
+     * @return
+     */
     public String getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
+    /**
+     * getter for the bait
+     * @return
+     */
     public String getBait() {
         return bait;
     }
 
-    public void setBait(String bait) {
-        this.bait = bait;
-    }
-
+    /**
+     * getter for the prefeed boolean
+     * @return
+     */
     public boolean isPrefeed() {
         return prefeed;
     }
 
-    public void setPrefeed(boolean prefeed) {
-        this.prefeed = prefeed;
-    }
-
+    /**
+     * getter for the gotOnSide boolean
+     * @return
+     */
     public boolean isGotOnTheSide() {
         return gotOnTheSide;
     }
 
-    public void setGotOnTheSide(boolean gotOnTheSide) {
-        this.gotOnTheSide = gotOnTheSide;
-    }
-
+    /**
+     * getter for the remark
+     * @return
+     */
     public String getRemark() {
         return remark;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
+    /**
+     * getter for the hoortBij
+     * @return
+     */
     public Fisherman getHoortBij() {
         return hoortBij;
     }
 
+    /**
+     * @Override function for the fish toString
+     * @return
+     */
     @Override
     public String toString() {
         StringBuilder text = new StringBuilder();

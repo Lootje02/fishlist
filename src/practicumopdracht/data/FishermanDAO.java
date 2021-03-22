@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Lorenzo Bindemann
  */
-public abstract class FishermanDAO implements DAO<Fisherman>{
+public abstract class FishermanDAO implements DAO<Fisherman> {
     protected List<Fisherman> objects;
 
     public FishermanDAO() {

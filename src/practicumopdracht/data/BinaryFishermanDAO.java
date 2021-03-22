@@ -6,13 +6,17 @@ import java.io.*;
 import java.time.LocalDate;
 
 /**
- * This method <description of function>
+ * This method is the DAO for saving fishermans to binary files
  *
  * @author Lorenzo Bindemann
  */
-public class BinaryFishermanDAO extends FishermanDAO{
+public class BinaryFishermanDAO extends FishermanDAO {
     private static final String FILENAME = "src/practicumopdracht/binary/fisherman.dat";
 
+    /**
+     * @return
+     * @Override function to save the fisherman to binary file
+     */
     @Override
     public boolean save() {
         File file = new File(FILENAME);
@@ -21,8 +25,10 @@ public class BinaryFishermanDAO extends FishermanDAO{
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             DataOutputStream dataOutputStream = new DataOutputStream(fileOutputStream);
 
+            // first line write total of fishermans for the load function
             dataOutputStream.writeInt(objects.size());
 
+            // loop through the list to from every field to the file
             for (Fisherman fisherman : objects) {
                 dataOutputStream.writeUTF(fisherman.getFirstname());
                 dataOutputStream.writeUTF(fisherman.getLastname());
@@ -37,6 +43,10 @@ public class BinaryFishermanDAO extends FishermanDAO{
         return true;
     }
 
+    /**
+     * @return
+     * @Override function to load the fisherman from binary file
+     */
     @Override
     public boolean load() {
         File file = new File(FILENAME);
@@ -47,9 +57,11 @@ public class BinaryFishermanDAO extends FishermanDAO{
             FileInputStream fileInputStream = new FileInputStream(file);
             DataInputStream dataInputStream = new DataInputStream(fileInputStream);
 
-            int numberOfPersons = dataInputStream.readInt();
+            // read first int for total fishermans
+            int numberOfFishermans = dataInputStream.readInt();
 
-            for (int i = 0; i < numberOfPersons; i++) {
+            // loop through the list to read every field to create a fisherman object and add to the list
+            for (int i = 0; i < numberOfFishermans; i++) {
                 String firstname = dataInputStream.readUTF();
                 String lastname = dataInputStream.readUTF();
                 LocalDate dateOfBirth = LocalDate.parse(dataInputStream.readUTF());

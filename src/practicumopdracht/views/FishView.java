@@ -18,7 +18,7 @@ import java.lang.reflect.Array;
 import java.util.Collection;
 
 /**
- * This method <description of function>
+ * This method is the file for the view of a fish
  *
  * @author Lorenzo Bindemann
  */
@@ -73,10 +73,16 @@ public class FishView extends View{
     // root
     private Parent root;
 
+    /**
+     * constructor for fisherman view
+     */
     public FishView() {
         initLayout();
     }
 
+    /**
+     * function to create a grid with the list and form
+     */
     private void initLayout() {
         // main VBox
         VBox fishVBox = new VBox();
@@ -213,7 +219,7 @@ public class FishView extends View{
                 sortingHBox,
                 buttonHBox
         );
-
+        // set the full grid in the root element
         root = fishVBox;
     }
 
@@ -233,57 +239,114 @@ public class FishView extends View{
         return SAVE_BUTTON;
     }
 
+    /**
+     * getter for the delete_button
+     * @return
+     */
     public Button getDELETE_BUTTON() {
         return DELETE_BUTTON;
     }
 
+    /**
+     * getter for the new_button
+     * @return
+     */
     public Button getNEW_BUTTON() {
         return NEW_BUTTON;
     }
 
+    /**
+     * getter for the fisherman_list
+     * @return
+     */
     public ComboBox<Fisherman> getFISHERMAN_LIST() {
         return FISHERMAN_LIST;
     }
 
+    /**
+     * getter for the fishlist
+     * @return
+     */
     public ListView<Fish> getFishlist() {
         return fishlist;
     }
 
+    /**
+     * getter for the textfield species
+     * @return
+     */
     public TextField getTEXTFIELD_FISH_SPECIES() {
         return TEXTFIELD_FISH_SPECIES;
     }
 
+    /**
+     * getter for the textfield fish length
+     * @return
+     */
     public TextField getTEXTFIELD_FISH_LENGTH_IN_CM() {
         return TEXTFIELD_FISH_LENGTH_IN_CM;
     }
 
+    /**
+     * getter for the textfield weight in kg
+     * @return
+     */
     public TextField getTEXTFIELD_WEIGHT_IN_KG() {
         return TEXTFIELD_WEIGHT_IN_KG;
     }
 
+    /**
+     * getter for the textfield location
+     * @return
+     */
     public TextField getTEXTFIELD_LOCATION() {
         return TEXTFIELD_LOCATION;
     }
 
+    /**
+     * getter for the textfield bait
+     * @return
+     */
     public TextField getTEXTFIELD_BAIT() {
         return TEXTFIELD_BAIT;
     }
 
+    /**
+     * getter for the datepicker for the caught on
+     * @return
+     */
     public DatePicker getDATEPICKER_CAUGHT_ON() {
         return DATEPICKER_CAUGHT_ON;
     }
 
+    /**
+     * getter for the checkbox for prefeed
+     * @return
+     */
     public CheckBox getPREFEED_CHECKBOX() {
         return PREFEED_CHECKBOX;
     }
 
+    /**
+     * getter for the checkbox got_on_side
+     * @return
+     */
     public CheckBox getGOT_ON_SIDE_CHECKBOX() {
         return GOT_ON_SIDE_CHECKBOX;
     }
 
+    /**
+     * getter for the textarea remark
+     * @return
+     */
     public TextArea getREMARK_TEXTAREA() {
         return REMARK_TEXTAREA;
     }
+
+    /**
+     * getter for the combobox for the watertype
+     * @return
+     */
     public ComboBox getWATERTYPE_COMBOBOX() {
         return WATERTYPE_COMBOBOX;
     }

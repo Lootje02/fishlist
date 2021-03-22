@@ -9,19 +9,28 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * This method <description of function>
+ * This method is the parent for all the other fish DAO's
  *
  * @author Lorenzo Bindemann
  */
-public abstract class FishDAO implements DAO<Fish>{
+public abstract class FishDAO implements DAO<Fish> {
     protected List<Fish> objects;
 
+    /**
+     * constructor for the FishDAO
+     */
     public FishDAO() {
         this.objects = new ArrayList<>();
 
         load();
     }
 
+    /**
+     * function to get the object fish object from the list by index
+     *
+     * @param id
+     * @return
+     */
     public Fish getById(int id) {
         try {
             return objects.get(id);
@@ -30,6 +39,12 @@ public abstract class FishDAO implements DAO<Fish>{
         }
     }
 
+    /**
+     * function to get all the fishes for the selected fisherman
+     *
+     * @param fisherman
+     * @return
+     */
     public List<Fish> getAllFor(Fisherman fisherman) {
         List<Fish> fishList = new ArrayList<>();
         for (Fish fish : objects) {
@@ -39,13 +54,23 @@ public abstract class FishDAO implements DAO<Fish>{
             }
         }
         return fishList;
-    };
+    }
 
+    ;
+
+    /**
+     * @return
+     * @Override function to get all the fishes
+     */
     @Override
     public List getAll() {
         return Collections.unmodifiableList(objects);
     }
 
+    /**
+     * @param object
+     * @Override function to add or update fishes in the list
+     */
     @Override
     public void addOrUpdate(Fish object) {
         final int FISH_INDEX = objects.indexOf(object);
@@ -58,6 +83,10 @@ public abstract class FishDAO implements DAO<Fish>{
         }
     }
 
+    /**
+     * @param object
+     * @Override function to remove fishes from the list
+     */
     @Override
     public void remove(Fish object) {
         // create fisherman and remove it
@@ -68,9 +97,19 @@ public abstract class FishDAO implements DAO<Fish>{
         }
     }
 
+    /**
+     * abstract class for saving
+     *
+     * @return
+     */
     @Override
     public abstract boolean save();
 
+    /**
+     * abstract class for loading
+     *
+     * @return
+     */
     @Override
     public abstract boolean load();
 }

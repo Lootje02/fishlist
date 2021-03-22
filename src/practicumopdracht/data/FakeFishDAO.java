@@ -5,18 +5,28 @@ import practicumopdracht.models.Fish;
 import java.time.LocalDate;
 
 /**
- * This method <description of function>
+ * This method is a DAO with fake details for fish
  *
  * @author Lorenzo Bindemann
  */
 public class FakeFishDAO extends FishDAO{
 
+    /**
+     * save function for fake fish save
+     * @return
+     */
     public boolean save() {
         return false;
     }
 
 
+    /**
+     * function for load fake details
+     *
+     * @return
+     */
     public boolean load() {
+        // commented out because of new structure issues
 //        Fish fish1 = new Fish(
 //                "Karper",
 //                1,

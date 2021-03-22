@@ -3,36 +3,37 @@ package practicumopdracht.controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import practicumopdracht.MainApplication;
-import practicumopdracht.comparators.FirstnameComparator;
 import practicumopdracht.comparators.LengthComparator;
 import practicumopdracht.comparators.SpeciesComparator;
 import practicumopdracht.data.FishDAO;
-import practicumopdracht.data.TextFishDAO;
 import practicumopdracht.models.Fish;
 import practicumopdracht.models.Fisherman;
 import practicumopdracht.views.FishView;
 import practicumopdracht.views.View;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
-import java.util.List;
 
 /**
- * This method <description of function>
+ * This method is the controller for the fish view and model
  *
  * @author Lorenzo Bindemann
  */
 public class FishController extends Controller {
     private FishView view;
-    private FishDAO fishDAO;
+    private final FishDAO fishDAO;
     private Fish selectedFish;
     private Fisherman currentFisherman;
 
+    /**
+     * constructor for the fishController with all the details
+     * @param fisherman
+     */
     public FishController(Fisherman fisherman) {
+        // set the selected fisherman in the field
         this.currentFisherman = fisherman;
+
         view = new FishView();
 
         // set list
@@ -66,10 +67,17 @@ public class FishController extends Controller {
         );
     }
 
+    /**
+     * default constructor for the fishcontroller
+     */
     public FishController() {
         fishDAO = MainApplication.getFishDAO();
     }
 
+    /**
+     * function to sort and refresh the list by pressing a radiobutton
+     * @param radioButton
+     */
     public void toggleRadioButton(String radioButton) {
         switch (radioButton) {
             case "0":
@@ -87,6 +95,9 @@ public class FishController extends Controller {
         }
     }
 
+    /**
+     * function to set all the actions on the buttons of the view
+     */
     public void setActionsOnButtons() {
         // toggle group (radio buttons)
         view.getSORTING_TOGGLE_GROUP().selectedToggleProperty().addListener((observableValue, oldSelected, newSelected) -> {
@@ -104,6 +115,9 @@ public class FishController extends Controller {
         ));
     }
 
+    /**
+     * function to set a selected fish in the input fields
+     */
     public void setFishInFields() {
         // textfield array
         TextField[] textfields = {
@@ -155,20 +169,40 @@ public class FishController extends Controller {
         );
     }
 
+    /**
+     * function to load items from textfile
+     * @return
+     */
     public boolean loadItemFromTextFile() {
         return fishDAO.load();
     }
 
+    /**
+     * funciton to save items to text file
+     * @return
+     */
     public boolean saveItemToTextFile() {
         return fishDAO.save();
     }
 
+    /**
+     * function to refresh the list fishlist
+     * @param sortingType
+     * @param order
+     */
     public void refreshList(String sortingType, Boolean order) {
         ObservableList<Fish> fishList = FXCollections.observableList(fishDAO.getAllFor(currentFisherman));
         fishList = sortList(fishList, sortingType, order);
         view.getFishlist().setItems(fishList);
     }
 
+    /**
+     * function to sort the list on all the different types
+     * @param fishList
+     * @param sortingType
+     * @param order
+     * @return
+     */
     public ObservableList<Fish> sortList(
             ObservableList<Fish> fishList,
             String sortingType,
@@ -179,7 +213,6 @@ public class FishController extends Controller {
         Comparator<Fish> activeComparator;
         if (sortingType == sortableTypes[0]) {
             activeComparator = new SpeciesComparator(order);
-            activeComparator = new SpeciesComparator(order);
         } else {
             activeComparator = new LengthComparator(order);
         }
@@ -187,16 +220,26 @@ public class FishController extends Controller {
         return fishList;
     }
 
+    /**
+     * function to disable the buttons
+     */
     public void disableButtons() {
         view.getDELETE_BUTTON().setDisable(true);
         view.getNEW_BUTTON().setDisable(true);
     }
 
+    /**
+     * function to enable the buttons
+     */
     public void enableButtons() {
         view.getDELETE_BUTTON().setDisable(false);
         view.getNEW_BUTTON().setDisable(false);
     }
 
+    /**
+     * function to return the view
+     * @return
+     */
     public View getView() {
         return view;
     }
@@ -217,17 +260,17 @@ public class FishController extends Controller {
         if (!ErrorText.trim().equals("")) {
             // show alert if there are errors
             showAlert(
-                Alert.AlertType.ERROR,
-                "Error gevonden",
-                ("Er zijn verschillende fouten geconstateerd\n" + ErrorText),
+                    Alert.AlertType.ERROR,
+                    "Error gevonden",
+                    ("Er zijn verschillende fouten geconstateerd\n" + ErrorText),
                     "Default"
             );
         } else {
             // create object of fish
             Fish fish =
                     selectedFish != null
-                    ? selectedFish
-                    : createFishObject();
+                            ? selectedFish
+                            : createFishObject();
             // add the fish to the list
             fishDAO.addOrUpdate(fish);
             // refresh the list
@@ -310,13 +353,17 @@ public class FishController extends Controller {
         return errorText;
     }
 
+    /**
+     * function to create a Fish object
+     * @return
+     */
     public Fish createFishObject() {
         // create variables to set in the fish object
         String fishSpecies = view.getTEXTFIELD_FISH_SPECIES().getText(),
-               location = view.getTEXTFIELD_LOCATION().getText(),
-               waterType = (String) view.getWATERTYPE_COMBOBOX().getSelectionModel().getSelectedItem(),
-               bait = view.getTEXTFIELD_BAIT().getText(),
-               remark = view.getREMARK_TEXTAREA().getText();
+                location = view.getTEXTFIELD_LOCATION().getText(),
+                waterType = (String) view.getWATERTYPE_COMBOBOX().getSelectionModel().getSelectedItem(),
+                bait = view.getTEXTFIELD_BAIT().getText(),
+                remark = view.getREMARK_TEXTAREA().getText();
         LocalDate date = view.getDATEPICKER_CAUGHT_ON().getValue();
         int lengthInCm;
         double weightInKg;
@@ -338,7 +385,7 @@ public class FishController extends Controller {
             weightInKg = NO_INPUT;
         }
         // create object of input
-         final Fish FISH = new Fish(
+        final Fish FISH = new Fish(
                 fishSpecies,
                 currentFisherman,
                 lengthInCm,
@@ -354,6 +401,9 @@ public class FishController extends Controller {
         return FISH;
     }
 
+    /**
+     * @Override function to delete an fish from the fishlist
+     */
     @Override
     public void deleteItemFromList() {
         fishDAO.remove(selectedFish);

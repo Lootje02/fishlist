@@ -14,7 +14,7 @@ import practicumopdracht.models.Fisherman;
 import java.lang.invoke.SwitchPoint;
 
 /**
- * This method <description of function>
+ * This method is the view for the fisherman
  *
  * @author Lorenzo Bindemann
  */
@@ -48,10 +48,16 @@ public class FishermanView extends View{
     // root
     private Parent root;
 
+    /**
+     * constructor for fisherman view
+     */
     public FishermanView() {
         initLayout();
     }
 
+    /**
+     * function to create a grid with the list and form
+     */
     public void initLayout() {
         // list VBox
         VBox fishVBox = new VBox();
@@ -162,7 +168,6 @@ public class FishermanView extends View{
                 SWITCH_BUTTON,
                 NEW_BUTTON
         );
-
         fishVBox.getChildren().addAll(
                 menuVBox,
                 gridInput,
@@ -170,7 +175,7 @@ public class FishermanView extends View{
                 gridList,
                 gridButton
         );
-
+        // set the full grid in the root element
         root = fishVBox;
     }
 
@@ -182,54 +187,106 @@ public class FishermanView extends View{
         return SWITCH_BUTTON;
     }
 
+    /**
+     * getter for the fishermanList
+     * @return
+     */
     public ListView<Fisherman> getFishermanList() {
         return fishermanList;
     }
 
+    /**
+     * getter for the new_button
+     * @return
+     */
     public Button getNEW_BUTTON() {
         return NEW_BUTTON;
     }
 
+    /**
+     * getter for the add_button
+     * @return
+     */
     public Button getADD_BUTTON() {
         return ADD_BUTTON;
     }
 
+    /**
+     * getter for the textfield of the firstname
+     * @return
+     */
     public TextField getTEXTFIELD_FIRSTNAME() {
         return TEXTFIELD_FIRSTNAME;
     }
 
+    /**
+     * getter for the textfield of the lastname
+     * @return
+     */
     public TextField getTEXTFIELD_LASTNAME() {
         return TEXTFIELD_LASTNAME;
     }
 
+    /**
+     * getter for the textfield of the city
+     * @return
+     */
     public TextField getTEXTFIELD_CITY() {
         return TEXTFIELD_CITY;
     }
 
+    /**
+     * getter for the datepicker of the date of birth
+     * @return
+     */
     public DatePicker getDATEPICKER_DATE_OF_BIRTH() {
         return DATEPICKER_DATE_OF_BIRTH;
     }
 
+    /**
+     * getter for the delete button
+     * @return
+     */
     public Button getDELETE_BUTTON() {
         return DELETE_BUTTON;
     }
 
+    /**
+     * getter for the item_load button
+     * @return
+     */
     public MenuItem getITEM_LOAD() {
         return ITEM_LOAD;
     }
 
+    /**
+     * getter for the item_save button
+     * @return
+     */
     public MenuItem getITEM_SAVE() {
         return ITEM_SAVE;
     }
 
+    /**
+     * gettter for the item_exit button
+     * @return
+     */
     public MenuItem getITEM_EXIT() {
         return ITEM_EXIT;
     }
 
+    /**
+     * getter for the sort_az button
+     * @return
+     */
     public MenuItem getSORT_AZ() {
         return SORT_AZ;
     }
 
+    /**
+     * getter for the sort_za button
+     * @return
+     */
     public MenuItem getSORT_ZA() {
         return SORT_ZA;
     }

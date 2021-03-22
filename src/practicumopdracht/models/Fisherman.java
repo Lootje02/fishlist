@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
- * This method creates the list of all the fishes
+ * This method creates a fisherman and on a fisherman you can add fishes
  *
  * @author Lorenzo Bindemann
  */
@@ -30,39 +30,42 @@ public class Fisherman {
         this.city = city;
     }
 
+    /**
+     * getter function for the firstname
+     * @return
+     */
     public String getFirstname() {
         return firstname;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
+    /**
+     * getter for the lastname
+     * @return
+     */
     public String getLastname() {
         return lastname;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
+    /**
+     * getter for the date of birth
+     * @return
+     */
     public LocalDate getDate_of_birth() {
         return date_of_birth;
     }
 
-    public void setDate_of_birth(LocalDate date_of_birth) {
-        this.date_of_birth = date_of_birth;
-    }
-
+    /**
+     * getter for the city
+     * @return
+     */
     public String getCity() {
         return city;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-
+    /**
+     * @Override function for the toString of the fisherman
+     * @return
+     */
     @Override
     public String toString() {
         StringBuilder text = new StringBuilder();

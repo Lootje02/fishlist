@@ -8,20 +8,23 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 /**
- * This method <description of function>
+ * This method is the DAO for saving fishermans to text file
  *
  * @author Lorenzo Bindemann
  */
 public class TextFishermanDAO extends FishermanDAO {
     private static final String FILENAME = "src/practicumopdracht/textfiles/fisherman.txt";
 
+    /**
+     * save function to save a fisherman list to a text file
+     *
+     * @return
+     */
     @Override
     public boolean save() {
         try {
             File file = new File(FILENAME);
             PrintWriter printWriter = new PrintWriter(file);
-//            // set the total objects in the file
-//            printWriter.println(objects.size());
 
             // loop through objects to set for each item the field in the file
             for (Fisherman fisherman : objects) {
@@ -39,6 +42,11 @@ public class TextFishermanDAO extends FishermanDAO {
         return true;
     }
 
+    /**
+     * load function to load all the fishermans from the text file
+     *
+     * @return
+     */
     @Override
     public boolean load() {
         File file = new File(FILENAME);

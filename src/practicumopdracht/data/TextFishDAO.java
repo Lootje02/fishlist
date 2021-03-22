@@ -10,20 +10,23 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 /**
- * This method <description of function>
+ * This method is a DAO to save a Fish to a text file
  *
  * @author Lorenzo Bindemann
  */
-public class TextFishDAO extends FishDAO{
+public class TextFishDAO extends FishDAO {
     private static final String FILENAME = "src/practicumopdracht/textfiles/fish.txt";
 
+    /**
+     * save function to save a all the Fishes to a text file
+     *
+     * @return
+     */
     @Override
     public boolean save() {
         try {
             File file = new File(FILENAME);
             PrintWriter printWriter = new PrintWriter(file);
-//            // set the total objects in the file
-//            printWriter.println(objects.size());
 
             // loop through objects to set for each item the field in the file
             for (Fish fish : objects) {
@@ -44,11 +47,16 @@ public class TextFishDAO extends FishDAO{
             printWriter.close();
         } catch (Exception ex) {
             System.out.println(ex);
-            return  false;
+            return false;
         }
         return true;
     }
 
+    /**
+     * load function to load all the fishes from the text file
+     *
+     * @return
+     */
     @Override
     public boolean load() {
         File file = new File(FILENAME);

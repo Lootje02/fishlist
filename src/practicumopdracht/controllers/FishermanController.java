@@ -21,7 +21,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * This method <description of function>
+ * This method is the controller for the fisherman view and fisherman model
  *
  * @author Lorenzo Bindemann
  */
@@ -30,6 +30,9 @@ public class FishermanController extends Controller {
     private FishermanDAO fishermanDAO;
     private Fisherman selectedFisherman;
 
+    /**
+     * contructor for the fishermanController
+     */
     public FishermanController() {
         view = new FishermanView();
 
@@ -51,56 +54,6 @@ public class FishermanController extends Controller {
                 }
         );
         refreshList(false);
-    }
-
-    /**
-     * call the setter function for all the fields of the fisherman modal
-     */
-    public void updateProfile() {
-        final String ErrorText = checkInputfields().toString();
-        // check if there are errors or not
-        if (!ErrorText.trim().equals("")) {
-            // show alert if there are errors
-            showAlert(
-                    Alert.AlertType.ERROR,
-                    "Errors gevonden",
-                    ("Er zijn verschillende fouten geconstateerd\n" + ErrorText),
-                    "Default"
-            );
-        } else {
-            // firstname
-            selectedFisherman.setFirstname(
-                    view.getTEXTFIELD_FIRSTNAME().getText()
-            );
-            // lastname
-            selectedFisherman.setLastname(
-                    view.getTEXTFIELD_LASTNAME().getText()
-            );
-            // date of birth
-            selectedFisherman.setDate_of_birth(
-                    view.getDATEPICKER_DATE_OF_BIRTH().getValue()
-            );
-            // city
-            selectedFisherman.setCity(
-                    view.getTEXTFIELD_CITY().getText()
-            );
-            // add fisherman to list
-            fishermanDAO.addOrUpdate
-                    (selectedFisherman);
-            // refresh the list
-            refreshList(false);
-            // make fields default
-            setAllFieldsToDefault();
-            // show succes alert
-            showAlert(
-                    Alert.AlertType.INFORMATION,
-                    "Succesvol",
-                    ("Het aanpassen van je visser is gelukt\n" + selectedFisherman.toString()),
-                    "Default"
-            );
-            // after changing the values update the list
-            refreshList(false);
-        }
     }
 
     /**
@@ -133,7 +86,7 @@ public class FishermanController extends Controller {
         // other buttons
         view.getNEW_BUTTON().setOnAction(e -> setAllFieldsToDefault());
         view.getSWITCH_BUTTON().setOnAction(e -> SwitchToDetails());
-        view.getADD_BUTTON().setOnAction(e -> addFishermanToList());
+        view.getADD_BUTTON().setOnAction(e -> addFishermanToListOrUpdate());
         view.getDELETE_BUTTON().setOnAction(e -> showAlert(
                 Alert.AlertType.CONFIRMATION,
                 "Delete",
@@ -164,20 +117,36 @@ public class FishermanController extends Controller {
         );
     }
 
+    /**
+     * function to load fishermans from a text file
+     *
+     * @return
+     */
     public boolean loadItemFromTextFile() {
         return fishermanDAO.load();
     }
 
+    /**
+     * function to save fishermans to a text file
+     *
+     * @return
+     */
     public boolean saveItemToTextFile() {
         return fishermanDAO.save();
     }
 
+    /**
+     * function to disable buttons
+     */
     public void disableButtons() {
         view.getDELETE_BUTTON().setDisable(true);
         view.getSWITCH_BUTTON().setDisable(true);
         view.getNEW_BUTTON().setDisable(true);
     }
 
+    /**
+     * function to enable buttons
+     */
     public void enableButtons() {
         view.getDELETE_BUTTON().setDisable(false);
         view.getSWITCH_BUTTON().setDisable(false);
@@ -191,7 +160,10 @@ public class FishermanController extends Controller {
         view.getFishermanList().setItems(fishermanList);
     }
 
-    public void addFishermanToList() {
+    /**
+     * function to add a Fisherman to the list or update it
+     */
+    public void addFishermanToListOrUpdate() {
         final String ErrorText = checkInputfields().toString();
         // check if there are errors or not
         if (!ErrorText.trim().equals("")) {
@@ -206,8 +178,8 @@ public class FishermanController extends Controller {
             // create object of fish
             Fisherman fisherman =
                     selectedFisherman != null
-                    ? selectedFisherman
-                    : createFishermanObject();
+                            ? selectedFisherman
+                            : createFishermanObject();
             // add fisherman to list
             fishermanDAO.addOrUpdate(fisherman);
             // refresh the list
@@ -224,6 +196,11 @@ public class FishermanController extends Controller {
         }
     }
 
+    /**
+     * function to create a fisherman object
+     *
+     * @return
+     */
     public Fisherman createFishermanObject() {
         // set all the fields in variables
         String firstname = view.getTEXTFIELD_FIRSTNAME().getText(),
@@ -240,6 +217,9 @@ public class FishermanController extends Controller {
         return fisherman;
     }
 
+    /**
+     * function to clear all the fields
+     */
     public void setAllFieldsToDefault() {
         // set selected object to null
         selectedFisherman = null;
@@ -260,6 +240,7 @@ public class FishermanController extends Controller {
 
     /**
      * function to check all the input fields on error
+     *
      * @return
      */
     public StringBuilder checkInputfields() {
@@ -303,11 +284,18 @@ public class FishermanController extends Controller {
         );
     }
 
+    /**
+     * @return
+     * @Override function to return the view
+     */
     @Override
     public View getView() {
         return view;
     }
 
+    /**
+     * @Override functio nto delete fisherman from the list
+     */
     @Override
     public void deleteItemFromList() {
         // create FishDao to get all the fishes for the selected fisherman

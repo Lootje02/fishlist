@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.Locale;
 
 /**
- * This method is the fish sorting on length
+ * This method is the fish sorting on species
  *
  * @author Lorenzo Bindemann
  */
@@ -15,6 +15,7 @@ public class SpeciesComparator implements Comparator<Fish> {
 
     /**
      * default constructor
+     *
      * @param sortZA
      */
     public SpeciesComparator(boolean sortZA) {
@@ -24,6 +25,7 @@ public class SpeciesComparator implements Comparator<Fish> {
 
     /**
      * function to compare the fish species
+     *
      * @param o1
      * @param o2
      * @return
@@ -36,9 +38,11 @@ public class SpeciesComparator implements Comparator<Fish> {
                 o2.getFishSpecies().toLowerCase()
         );
         final int MIN_RESULT = 0;
+        // sort on type of bait if species is equal
         if (compareFishSpecies == MIN_RESULT) {
             return o1.getBait().toLowerCase().compareTo(o2.getFishSpecies().toLowerCase());
         }
+        // sort descending
         if (sortZA) {
             return -compareFishSpecies;
         }

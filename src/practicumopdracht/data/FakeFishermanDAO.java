@@ -5,11 +5,16 @@ import practicumopdracht.models.Fisherman;
 import java.time.LocalDate;
 
 /**
- * This method <description of function>
+ * This method is a DAO for fake details for fisherman
  *
  * @author Lorenzo Bindemann
  */
-public class FakeFishermanDAO extends FishermanDAO{
+public class FakeFishermanDAO extends FishermanDAO {
+    /**
+     * save function for fake fish save
+     *
+     * @return
+     */
     @Override
     public boolean save() {
         Fisherman fisherman1 = new Fisherman("Lorenzo1", "Bindemann", LocalDate.now(), "Uithoorn");
@@ -17,6 +22,11 @@ public class FakeFishermanDAO extends FishermanDAO{
         return true;
     }
 
+    /**
+     * function for load fake details
+     *
+     * @return
+     */
     @Override
     public boolean load() {
         Fisherman fisherman1 = new Fisherman("Lorenzo", "Bindemann", LocalDate.now(), "Uithoorn");

@@ -6,13 +6,18 @@ import practicumopdracht.models.Fish;
 import java.io.*;
 
 /**
- * This method <description of function>
+ * This method is the DAO for saving Fishes to a file as an object
  *
  * @author Lorenzo Bindemann
  */
-public class ObjectFishDAO extends FishDAO{
+public class ObjectFishDAO extends FishDAO {
     private static final String FILENAME = "src/practicumopdracht/binary/fish.obj";
 
+    /**
+     * save function to save object to list
+     *
+     * @return
+     */
     @Override
     public boolean save() {
         File file = new File(FILENAME);
@@ -20,8 +25,10 @@ public class ObjectFishDAO extends FishDAO{
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
 
+            // first line in file for the amount of fishes for the load function
             objectOutputStream.writeInt(objects.size());
 
+            // loop through the list to set all the fishes in the file
             for (Fish fish : objects) {
                 // set the index of the fisherman in de object file
                 objectOutputStream.writeInt(MainApplication.getFishermanDAO().getIdFor(fish.getHoortBij()));
@@ -35,6 +42,11 @@ public class ObjectFishDAO extends FishDAO{
         return true;
     }
 
+    /**
+     * load function for the fishes from an object file
+     *
+     * @return
+     */
     @Override
     public boolean load() {
         File file = new File(FILENAME);
@@ -44,6 +56,7 @@ public class ObjectFishDAO extends FishDAO{
 
             // read the total saved fishes
             int numberOfFish = objectInputStream.readInt();
+            // loop through the file to get all the fishes
             for (int i = 0; i < numberOfFish; i++) {
                 // read the index of the fisherman
                 int hoortBij = objectInputStream.readInt();

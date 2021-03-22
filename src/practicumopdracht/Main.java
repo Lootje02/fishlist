@@ -4,6 +4,9 @@ import javafx.application.Application;
 
 import java.time.LocalDate;
 
+/**
+ * the Main class to run the program
+ */
 public class Main {
 
     public static String studentNaam = "Lorenzo Bindemann";
