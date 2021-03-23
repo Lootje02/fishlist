@@ -63,6 +63,38 @@ public class Fisherman {
     }
 
     /**
+     * setter function for firstname
+     * @param firstname
+     */
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    /**
+     * setter function for lastname
+     * @param lastname
+     */
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    /**
+     * setter function for date of birth
+     * @param date_of_birth
+     */
+    public void setDate_of_birth(LocalDate date_of_birth) {
+        this.date_of_birth = date_of_birth;
+    }
+
+    /**
+     * setter function for city
+     * @param city
+     */
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    /**
      * @Override function for the toString of the fisherman
      * @return
      */

@@ -178,7 +178,7 @@ public class FishermanController extends Controller {
             // create object of fish
             Fisherman fisherman =
                     selectedFisherman != null
-                            ? selectedFisherman
+                            ? createUpdatedFishermanObject(selectedFisherman)
                             : createFishermanObject();
             // add fisherman to list
             fishermanDAO.addOrUpdate(fisherman);
@@ -194,6 +194,21 @@ public class FishermanController extends Controller {
                     "Default"
             );
         }
+    }
+
+    public Fisherman createUpdatedFishermanObject(Fisherman fisherman) {
+        // get fisherman details
+        String firstname = view.getTEXTFIELD_FIRSTNAME().getText(),
+                lastname = view.getTEXTFIELD_LASTNAME().getText(),
+                city = (String) view.getTEXTFIELD_CITY().getText();
+        LocalDate date = view.getDATEPICKER_DATE_OF_BIRTH().getValue();
+        // update the details
+        fisherman.setFirstname(firstname);
+        fisherman.setLastname(lastname);
+        fisherman.setDate_of_birth(date);
+        fisherman.setCity(city);
+        // return the updated version
+        return fisherman;
     }
 
     /**
