@@ -156,6 +156,86 @@ public class Fish implements Serializable {
     }
 
     /**
+     * setter for fish species
+     * @param fishSpecies
+     */
+    public void setFishSpecies(String fishSpecies) {
+        this.fishSpecies = fishSpecies;
+    }
+
+    /**
+     * setter for fish fishLengthInCm
+     * @param fishLengthInCm
+     */
+    public void setFishLengthInCm(int fishLengthInCm) {
+        this.fishLengthInCm = fishLengthInCm;
+    }
+
+    /**
+     * setter for weightInKg
+     * @param weightInKg
+     */
+    public void setWeightInKg(double weightInKg) {
+        this.weightInKg = weightInKg;
+    }
+
+    /**
+     * setter for Caught on
+     * @param caughtOn
+     */
+    public void setCaughtOn(LocalDate caughtOn) {
+        this.caughtOn = caughtOn;
+    }
+
+    /**
+     * setter for watertype
+     * @param waterType
+     */
+    public void setWaterType(String waterType) {
+        this.waterType = waterType;
+    }
+
+    /**
+     * setter for the location
+     * @param location
+     */
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    /**
+     * setter for the bait
+     * @param bait
+     */
+    public void setBait(String bait) {
+        this.bait = bait;
+    }
+
+    /**
+     * setter for prefeed
+     * @param prefeed
+     */
+    public void setPrefeed(boolean prefeed) {
+        this.prefeed = prefeed;
+    }
+
+    /**
+     * setter for gotOnTheSide
+     * @param gotOnTheSide
+     */
+    public void setGotOnTheSide(boolean gotOnTheSide) {
+        this.gotOnTheSide = gotOnTheSide;
+    }
+
+    /**
+     * setter for the remark
+     * @param remark
+     */
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    /**
      * @Override function for the fish toString
      * @return
      */

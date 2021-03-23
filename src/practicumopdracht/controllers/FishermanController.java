@@ -196,6 +196,11 @@ public class FishermanController extends Controller {
         }
     }
 
+    /**
+     * function to update selected fisherman
+     * @param fisherman
+     * @return
+     */
     public Fisherman createUpdatedFishermanObject(Fisherman fisherman) {
         // get fisherman details
         String firstname = view.getTEXTFIELD_FIRSTNAME().getText(),

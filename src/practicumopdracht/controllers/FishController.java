@@ -269,7 +269,7 @@ public class FishController extends Controller {
             // create object of fish
             Fish fish =
                     selectedFish != null
-                            ? selectedFish
+                            ? updateFishObject(selectedFish)
                             : createFishObject();
             // add the fish to the list
             fishDAO.addOrUpdate(fish);
@@ -285,6 +285,53 @@ public class FishController extends Controller {
                     "Default"
             );
         }
+    }
+
+    /**
+     * function to update a selected fish
+     * @param fish
+     * @return
+     */
+    public Fish updateFishObject(Fish fish) {
+        // get all the inputfields
+        String fishSpecies = view.getTEXTFIELD_FISH_SPECIES().getText(),
+                location = view.getTEXTFIELD_LOCATION().getText(),
+                waterType = (String) view.getWATERTYPE_COMBOBOX().getSelectionModel().getSelectedItem(),
+                bait = view.getTEXTFIELD_BAIT().getText(),
+                remark = view.getREMARK_TEXTAREA().getText();
+        LocalDate date = view.getDATEPICKER_CAUGHT_ON().getValue();
+        int lengthInCm;
+        double weightInKg;
+        boolean prefeed = view.getPREFEED_CHECKBOX().isSelected(),
+                gotOnside = view.getGOT_ON_SIDE_CHECKBOX().isSelected();
+
+        // try to set length in variable
+        final int NO_INPUT = 0;
+        try {
+            lengthInCm = Integer.parseInt(view.getTEXTFIELD_FISH_LENGTH_IN_CM().getText());
+        } catch (Exception ex) {
+            // if is not filled in set 0
+            lengthInCm = 0;
+        }
+        // try to set weight in variable
+        try {
+            weightInKg = Double.parseDouble(view.getTEXTFIELD_WEIGHT_IN_KG().getText());
+        } catch (Exception ex) {
+            weightInKg = NO_INPUT;
+        }
+        // update all the object fields
+        fish.setFishSpecies(fishSpecies);
+        fish.setFishLengthInCm(lengthInCm);
+        fish.setWeightInKg(weightInKg);
+        fish.setCaughtOn(date);
+        fish.setLocation(location);
+        fish.setWaterType(waterType);
+        fish.setBait(bait);
+        fish.setPrefeed(prefeed);
+        fish.setGotOnTheSide(gotOnside);
+        fish.setRemark(remark);
+        // return updated fish
+        return fish;
     }
 
     /**
