@@ -3,6 +3,7 @@ package practicumopdracht.data;
 import practicumopdracht.models.Fisherman;
 
 import java.io.*;
+import java.nio.file.FileAlreadyExistsException;
 import java.time.LocalDate;
 
 /**
@@ -36,8 +37,11 @@ public class BinaryFishermanDAO extends FishermanDAO {
                 dataOutputStream.writeUTF(fisherman.getCity());
             }
             dataOutputStream.close();
+        } catch (FileNotFoundException | FileAlreadyExistsException ex) {
+            System.out.println("Bestand niet gevonden of het bestaat al: " + ex);
+            return false;
         } catch (Exception ex) {
-            System.out.println(ex);
+            System.err.print(ex);
             return false;
         }
         return true;
@@ -77,10 +81,16 @@ public class BinaryFishermanDAO extends FishermanDAO {
                 );
             }
             dataInputStream.close();
-        } catch (Exception ex) {
-            System.out.println(ex);
+        }  catch(FileNotFoundException | FileAlreadyExistsException ex) {
+            // file not found or file already exist
+            System.out.println("Bestand niet gevonden of het bestaat al: " + ex);
+            return false;
+        } catch(Exception ex) {
+            // other errors
+            System.err.print(ex);
             return false;
         }
+
         return true;
     }
 }

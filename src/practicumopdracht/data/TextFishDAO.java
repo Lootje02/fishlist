@@ -5,7 +5,9 @@ import practicumopdracht.models.Fish;
 import practicumopdracht.models.Fisherman;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.nio.file.FileAlreadyExistsException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -45,8 +47,13 @@ public class TextFishDAO extends FishDAO {
             }
             // close the printerWrite !Important
             printWriter.close();
-        } catch (Exception ex) {
-            System.out.println(ex);
+        } catch(FileNotFoundException ex) {
+            // file not found
+            System.out.println("Bestand niet gevonden: " + ex);
+            return false;
+        } catch(Exception ex) {
+            // other errors
+            System.err.print(ex);
             return false;
         }
         return true;
@@ -95,8 +102,13 @@ public class TextFishDAO extends FishDAO {
                 // add the fisherman to the list
                 addOrUpdate(fish);
             }
-        } catch (Exception ex) {
-            System.out.println(ex);
+        } catch(FileNotFoundException ex) {
+            // file not found
+            System.out.println("Bestand niet gevonden: " + ex);
+            return false;
+        } catch(Exception ex) {
+            // other errors
+            System.err.print(ex);
             return false;
         }
         return true;

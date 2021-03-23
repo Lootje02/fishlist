@@ -4,6 +4,7 @@ import practicumopdracht.MainApplication;
 import practicumopdracht.models.Fish;
 
 import java.io.*;
+import java.nio.file.FileAlreadyExistsException;
 
 /**
  * This method is the DAO for saving Fishes to a file as an object
@@ -35,8 +36,11 @@ public class ObjectFishDAO extends FishDAO {
                 objectOutputStream.writeObject(fish);
             }
             objectOutputStream.close();
+        } catch (FileNotFoundException | FileAlreadyExistsException ex) {
+            System.out.println("Bestand niet gevonden of het bestaat al: " + ex);
+            return false;
         } catch (Exception ex) {
-            System.out.println(ex);
+            System.err.print(ex);
             return false;
         }
         return true;
@@ -65,10 +69,15 @@ public class ObjectFishDAO extends FishDAO {
                 fish.setHoortBij(MainApplication.getFishermanDAO().getById(hoortBij));
                 addOrUpdate(fish);
             }
-            return true;
-        } catch (Exception ex) {
-            System.out.println(ex);
+        } catch(FileNotFoundException | FileAlreadyExistsException ex) {
+            // file not found or file already exist
+            System.out.println("Bestand niet gevonden of het bestaat al: " + ex);
+            return false;
+        } catch(Exception ex) {
+            // other errors
+            System.err.print(ex);
+            return false;
         }
-        return false;
+        return true;
     }
 }

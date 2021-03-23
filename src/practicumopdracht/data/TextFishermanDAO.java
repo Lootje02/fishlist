@@ -3,7 +3,9 @@ package practicumopdracht.data;
 import practicumopdracht.models.Fisherman;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.nio.file.FileAlreadyExistsException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -35,8 +37,13 @@ public class TextFishermanDAO extends FishermanDAO {
             }
             // close the printerWrite !Important
             printWriter.close();
-        } catch (Exception ex) {
-            System.out.println(ex);
+        } catch(FileNotFoundException ex) {
+            // file not found
+            System.out.println("Bestand niet gevonden: " + ex);
+            return false;
+        } catch(Exception ex) {
+            // other errors
+            System.err.print(ex);
             return false;
         }
         return true;
@@ -69,8 +76,13 @@ public class TextFishermanDAO extends FishermanDAO {
                 // add the fisherman to the list
                 addOrUpdate(fisherman);
             }
-        } catch (Exception ex) {
-            System.out.println(ex);
+        } catch(FileNotFoundException ex) {
+            // file not found
+            System.out.println("Bestand niet gevonden: " + ex);
+            return false;
+        } catch(Exception ex) {
+            // other errors
+            System.err.print(ex);
             return false;
         }
         return true;
